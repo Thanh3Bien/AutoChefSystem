@@ -4,31 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoChefSystem.DAL.Entities;
+using AutoChefSystem.DAL.Infrastructures;
+using AutoChefSystem.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AutoChefSystem.DAL.Repositories
 {
-    public class RoleRepository
+    public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
-        public static RoleRepository instance { get; private set; }
-        private static object lockObject = new object();
-        public RoleRepository() { }
-        public static RoleRepository Instance
+        //public static RoleRepository instance { get; private set; }
+        //private static object lockObject = new object();
+        //private readonly AutoChefSystemContext _autoChefSystemContext;
+        public RoleRepository(
+        AutoChefSystemContext context,
+        ILogger logger) : base(context, logger)
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new RoleRepository();
-                }
-                return instance;
-            }
         }
+
+        //public static RoleRepository Instance
+        //{
+        //    get
+        //    {
+        //        if (instance == null)
+        //        {
+        //            instance = new RoleRepository(context:, logger:);
+        //        }
+        //        return instance;
+        //    }
+        //}
 
         public async Task<List<Role>> GetAllAsync()
         {
-            using var db = new AutoChefSystemContext();
-            return await db.Roles.ToListAsync();
+            return await _context.Roles.ToListAsync();
         }
     }
 

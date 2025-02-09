@@ -15,11 +15,11 @@ namespace AutoChefSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync(int id)
         {
             try
             {
-                var result = await _roleService.GetAll();
+                var result = await _roleService.GetById(id);
                 if (result is not null)
                 {
                     return Ok(result);
