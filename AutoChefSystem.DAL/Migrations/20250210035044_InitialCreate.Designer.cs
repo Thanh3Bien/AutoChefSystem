@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoChefSystem.DAL.Migrations
 {
     [DbContext(typeof(AutoChefSystemContext))]
-    [Migration("20250209102700_InitialCreate")]
+    [Migration("20250210035044_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
