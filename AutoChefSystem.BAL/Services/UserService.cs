@@ -17,6 +17,8 @@ namespace AutoChefSystem.BAL.Services
         {
             _unitOfWork = unitOfWork;
         }
+        public async Task<User?> LoginAsync(string userName, string passWord)
+            => await _unitOfWork.Users.LoginAsync(userName, passWord);
 
         public async Task<CreateUserRequest> AddAsync(CreateUserRequest createUserRequest)
         {

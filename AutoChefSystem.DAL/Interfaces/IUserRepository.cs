@@ -10,5 +10,6 @@ namespace AutoChefSystem.DAL.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<User?> LoginAsync(string userName, string password);
     }
 }

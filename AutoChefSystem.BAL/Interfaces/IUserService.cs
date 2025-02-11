@@ -10,6 +10,7 @@ namespace AutoChefSystem.BAL.Interfaces
 {
     public interface IUserService
     {
+        Task<User?> LoginAsync(string userName, string passWord);
         Task<CreateUserRequest> AddAsync(CreateUserRequest createUserRequest);
 
         Task<UpdateUserRequest> UpdateAsync(UpdateUserRequest updateUserRequest);
