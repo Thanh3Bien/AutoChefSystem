@@ -13,6 +13,7 @@ namespace AutoChefSystem.BAL
         public static IServiceCollection ConfigureBALServices(this IServiceCollection services)
         {
             services.AddScoped<RoleService>();
+            services.AddScoped<UserService>();
             return services;
         }
     }

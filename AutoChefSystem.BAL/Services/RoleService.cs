@@ -27,7 +27,7 @@ namespace AutoChefSystem.BAL.Services
             {
                 RoleName = createRoleRequest.RoleName,
             };
-            var result = _unitOfWork.Roles.AddEntity(role);
+            _unitOfWork.Roles.AddEntity(role);
             await _unitOfWork.CompleteAsync();
             return createRoleRequest;
         }
