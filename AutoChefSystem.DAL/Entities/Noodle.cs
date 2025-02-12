@@ -11,5 +11,5 @@ public partial class Noodle
 
     public bool IsActive { get; set; }
 
-    public virtual Dish? Dish { get; set; }
+    public virtual ICollection<Dish> Dishes { get; set; } = new List<Dish>();
 }

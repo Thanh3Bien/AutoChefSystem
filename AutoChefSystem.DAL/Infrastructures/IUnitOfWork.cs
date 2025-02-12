@@ -21,7 +21,7 @@ namespace AutoChefSystem.DAL.Infrastructures
 
         INoodleRepository Noodles { get; }
 
-        IOrderDetailRepository OrderDetails { get; }
+        //IOrderDetailRepository OrderDetails { get; }
 
         IOrderRepository Orders { get; }
 

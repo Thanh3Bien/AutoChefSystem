@@ -26,7 +26,7 @@ namespace AutoChefSystem.DAL.Infrastructures
 
         public INoodleRepository Noodles { get; private set; }
 
-        public IOrderDetailRepository OrderDetails { get; private set; }
+        //public IOrderDetailRepository OrderDetails { get; private set; }
 
         public IOrderRepository Orders { get; private set; }
 
@@ -56,7 +56,7 @@ namespace AutoChefSystem.DAL.Infrastructures
 
             Noodles = new NoodleRepository(_context, _logger);
 
-            OrderDetails = new OrderDetailRepository(_context, _logger);
+            //OrderDetails = new OrderDetailRepository(_context, _logger);
 
             Orders = new OrderRepository(_context, _logger);
 

@@ -30,14 +30,13 @@ public partial class AutoChefSystemContext : DbContext
 
     public virtual DbSet<Order> Orders { get; set; }
 
-    public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //    => optionsBuilder.UseSqlServer("Server=LAPTOP-39B7IASC\\SQLEXPRESS; Database=AutoChefSystem; Uid=sa; Pwd=1; Trusted_Connection=True; TrustServerCertificate=True;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-39B7IASC\\SQLEXPRESS;Database=AutoChefSystem;Uid=sa;Pwd=1;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -65,16 +64,14 @@ public partial class AutoChefSystemContext : DbContext
 
             entity.ToTable("Dish");
 
-            entity.HasIndex(e => e.NoodlesId, "UQ__Dish__A38C5093BFCE1636").IsUnique();
-
             entity.Property(e => e.DishName).HasMaxLength(100);
 
             entity.HasOne(d => d.Broths).WithMany(p => p.Dishes)
                 .HasForeignKey(d => d.BrothsId)
                 .HasConstraintName("FK__Dish__BrothsId__59FA5E80");
 
-            entity.HasOne(d => d.Noodles).WithOne(p => p.Dish)
-                .HasForeignKey<Dish>(d => d.NoodlesId)
+            entity.HasOne(d => d.Noodles).WithMany(p => p.Dishes)
+                .HasForeignKey(d => d.NoodlesId)
                 .HasConstraintName("FK__Dish__NoodlesId__59063A47");
         });
 
@@ -132,24 +129,13 @@ public partial class AutoChefSystemContext : DbContext
             entity.Property(e => e.Phone).HasMaxLength(15);
             entity.Property(e => e.Status).HasMaxLength(50);
 
+            entity.HasOne(d => d.Dish).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.DishId)
+                .HasConstraintName("FK__Order__DishId__14270015");
+
             entity.HasOne(d => d.PhoneNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.Phone)
                 .HasConstraintName("FK__Order__Phone__693CA210");
-        });
-
-        modelBuilder.Entity<OrderDetail>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC0770816040");
-
-            entity.ToTable("OrderDetail");
-
-            entity.HasOne(d => d.Dish).WithMany(p => p.OrderDetails)
-                .HasForeignKey(d => d.DishId)
-                .HasConstraintName("FK__OrderDeta__DishI__75A278F5");
-
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK__OrderDeta__Order__74AE54BC");
         });
 
         modelBuilder.Entity<Role>(entity =>

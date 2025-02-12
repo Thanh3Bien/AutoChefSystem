@@ -13,9 +13,11 @@ public partial class Order
 
     public string? Status { get; set; }
 
-    public virtual Feedback? Feedback { get; set; }
+    public int? DishId { get; set; }
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual Dish? Dish { get; set; }
+
+    public virtual Feedback? Feedback { get; set; }
 
     public virtual Customer? PhoneNavigation { get; set; }
 }
