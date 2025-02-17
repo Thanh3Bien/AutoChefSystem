@@ -9,21 +9,21 @@ namespace AutoChefSystem.DAL.Infrastructures
 {
     public interface IUnitOfWork
     {
-        IBrothRepository Broths { get; }
+        //IBrothRepository Broths { get; }
 
-        ICustomerRepository Customers { get; }
+        //ICustomerRepository Customers { get; }
 
-        IDishRepository Dishs { get; }
+        //IDishRepository Dishs { get; }
 
-        IFeedbackRepository Feedbacks { get; }
+        //IFeedbackRepository Feedbacks { get; }
 
-        IIngredientRepository Ingredients { get; }
+        //IIngredientRepository Ingredients { get; }
 
-        INoodleRepository Noodles { get; }
+        //INoodleRepository Noodles { get; }
 
-        //IOrderDetailRepository OrderDetails { get; }
+        ////IOrderDetailRepository OrderDetails { get; }
 
-        IOrderRepository Orders { get; }
+        //IOrderRepository Orders { get; }
 
         IRoleRepository Roles { get; }
 

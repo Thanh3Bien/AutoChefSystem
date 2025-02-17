@@ -1,6 +1,7 @@
 ﻿using AutoChefSystem.BAL.Models.Roles;
 using AutoChefSystem.BAL.Services;
 using AutoChefSystem.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace AutoChefSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RoleController : ControllerBase
     {
         private readonly RoleService _roleService;

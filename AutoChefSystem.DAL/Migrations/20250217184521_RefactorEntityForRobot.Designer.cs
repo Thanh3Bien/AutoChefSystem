@@ -4,6 +4,7 @@ using AutoChefSystem.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoChefSystem.DAL.Migrations
 {
     [DbContext(typeof(AutoChefSystemContext))]
-    partial class AutoChefSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250217184521_RefactorEntityForRobot")]
+    partial class RefactorEntityForRobot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

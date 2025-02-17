@@ -16,126 +16,152 @@ public partial class AutoChefSystemContext : DbContext
     {
     }
 
-    public virtual DbSet<Broth> Broths { get; set; }
-
-    public virtual DbSet<Customer> Customers { get; set; }
-
-    public virtual DbSet<Dish> Dishes { get; set; }
-
-    public virtual DbSet<Feedback> Feedbacks { get; set; }
-
-    public virtual DbSet<Ingredient> Ingredients { get; set; }
-
-    public virtual DbSet<Noodle> Noodles { get; set; }
+    public virtual DbSet<Location> Locations { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
+    public virtual DbSet<Recipe> Recipes { get; set; }
+
+    public virtual DbSet<RecipeStep> RecipeSteps { get; set; }
+
+    public virtual DbSet<Robot> Robots { get; set; }
+
+    public virtual DbSet<RobotOperationLog> RobotOperationLogs { get; set; }
+
+    public virtual DbSet<RobotTask> RobotTasks { get; set; }
+
+    public virtual DbSet<RobotType> RobotTypes { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<StepTask> StepTasks { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=local;Database=AutoChefSystem;Uid=sa;Pwd=123456;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-39B7IASC\\SQLEXPRESS;Database=AutoChefSystem;Uid=sa;Pwd=1;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Broth>(entity =>
+        modelBuilder.Entity<Location>(entity =>
         {
-            entity.HasKey(e => e.BrothsId).HasName("PK__Broths__9F37327F45A2D929");
+            entity.HasKey(e => e.LocationId).HasName("PK__Location__E7FEA49726A610A3");
 
-            entity.Property(e => e.BrothsName).HasMaxLength(100);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-        });
-
-        modelBuilder.Entity<Customer>(entity =>
-        {
-            entity.HasKey(e => e.Phone).HasName("PK__Customer__5C7E359F03449E5C");
-
-            entity.ToTable("Customer");
-
-            entity.Property(e => e.Phone).HasMaxLength(15);
-            entity.Property(e => e.CustomerName).HasMaxLength(100);
-        });
-
-        modelBuilder.Entity<Dish>(entity =>
-        {
-            entity.HasKey(e => e.DishId).HasName("PK__Dish__18834F50F2AD62CC");
-
-            entity.ToTable("Dish");
-
-            entity.Property(e => e.DishName).HasMaxLength(100);
-
-            entity.HasOne(d => d.Broths).WithMany(p => p.Dishes)
-                .HasForeignKey(d => d.BrothsId)
-                .HasConstraintName("FK__Dish__BrothsId__59FA5E80");
-
-            entity.HasOne(d => d.Noodles).WithMany(p => p.Dishes)
-                .HasForeignKey(d => d.NoodlesId)
-                .HasConstraintName("FK__Dish__NoodlesId__59063A47");
-        });
-
-        modelBuilder.Entity<Feedback>(entity =>
-        {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDD6B680CDB9");
-
-            entity.ToTable("Feedback");
-
-            entity.HasIndex(e => e.OrderId, "UQ_FeedbackOrder").IsUnique();
-
-            entity.Property(e => e.CreatedTime)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.Phone).HasMaxLength(15);
-            entity.Property(e => e.UpdateTime)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Order).WithOne(p => p.Feedback)
-                .HasForeignKey<Feedback>(d => d.OrderId)
-                .HasConstraintName("FK__Feedback__OrderI__70DDC3D8");
-
-            entity.HasOne(d => d.PhoneNavigation).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.Phone)
-                .HasConstraintName("FK__Feedback__Phone__6FE99F9F");
-        });
-
-        modelBuilder.Entity<Ingredient>(entity =>
-        {
-            entity.HasKey(e => e.IngredientId).HasName("PK__Ingredie__BEAEB25A2BFFBF74");
-
-            entity.ToTable("Ingredient");
+            entity.ToTable("Location");
 
             entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Quantity).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<Noodle>(entity =>
-        {
-            entity.HasKey(e => e.NoodlesId).HasName("PK__Noodles__A38C5092C0E02B25");
-
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.NoodlesName).HasMaxLength(100);
+            entity.Property(e => e.LocationName).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BCF668B17E3");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BCFCF563AD0");
 
             entity.ToTable("Order");
 
-            entity.Property(e => e.OrderDate).HasColumnType("datetime");
-            entity.Property(e => e.Phone).HasMaxLength(15);
+            entity.Property(e => e.CompletedTime).HasColumnType("datetime");
+            entity.Property(e => e.OrderedTime).HasColumnType("datetime");
             entity.Property(e => e.Status).HasMaxLength(50);
 
-            entity.HasOne(d => d.Dish).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.DishId)
-                .HasConstraintName("FK__Order__DishId__14270015");
+            entity.HasOne(d => d.Location).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.LocationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Location");
 
-            entity.HasOne(d => d.PhoneNavigation).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.Phone)
-                .HasConstraintName("FK__Order__Phone__693CA210");
+            entity.HasOne(d => d.Recipe).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Recipe");
+
+            entity.HasOne(d => d.Robot).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.RobotId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Robot");
+        });
+
+        modelBuilder.Entity<Recipe>(entity =>
+        {
+            entity.HasKey(e => e.RecipeId).HasName("PK__Recipe__FDD988B070C73FCA");
+
+            entity.ToTable("Recipe");
+
+            entity.Property(e => e.Ingredients).HasMaxLength(255);
+            entity.Property(e => e.RecipeName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<RecipeStep>(entity =>
+        {
+            entity.HasKey(e => e.StepId).HasName("PK__RecipeSt__24343357B09B0472");
+
+            entity.ToTable("RecipeStep");
+
+            entity.Property(e => e.StepDescription).HasMaxLength(255);
+
+            entity.HasOne(d => d.Recipe).WithMany(p => p.RecipeSteps)
+                .HasForeignKey(d => d.RecipeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RecipeStep_Recipe");
+        });
+
+        modelBuilder.Entity<Robot>(entity =>
+        {
+            entity.HasKey(e => e.RobotId).HasName("PK__Robot__FBB3324148DE6123");
+
+            entity.ToTable("Robot");
+
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+
+            entity.HasOne(d => d.Location).WithMany(p => p.Robots)
+                .HasForeignKey(d => d.LocationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Robot_Location");
+
+            entity.HasOne(d => d.RobotType).WithMany(p => p.Robots)
+                .HasForeignKey(d => d.RobotTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Robot_RobotType");
+        });
+
+        modelBuilder.Entity<RobotOperationLog>(entity =>
+        {
+            entity.HasKey(e => e.RobotOperationLogId).HasName("PK__RobotOpe__19FE31E8F59DCC6F");
+
+            entity.ToTable("RobotOperationLog");
+
+            entity.Property(e => e.CompletionStatus).HasMaxLength(50);
+            entity.Property(e => e.EndTime).HasColumnType("datetime");
+            entity.Property(e => e.StartTime).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.RobotOperationLogs)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RobotOperationLog_Order");
+
+            entity.HasOne(d => d.Robot).WithMany(p => p.RobotOperationLogs)
+                .HasForeignKey(d => d.RobotId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RobotOperationLog_Robot");
+        });
+
+        modelBuilder.Entity<RobotTask>(entity =>
+        {
+            entity.HasKey(e => e.RobotTaskId).HasName("PK__RobotTas__52CCC00BF0F4ACD9");
+
+            entity.ToTable("RobotTask");
+
+            entity.Property(e => e.RobotTaskName).HasMaxLength(100);
+            entity.Property(e => e.TaskDescription).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<RobotType>(entity =>
+        {
+            entity.HasKey(e => e.RobotTypeId).HasName("PK__RobotTyp__B4BB3C4D0B11CC04");
+
+            entity.ToTable("RobotType");
+
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.RobotTypeName).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -145,6 +171,23 @@ public partial class AutoChefSystemContext : DbContext
             entity.ToTable("Role");
 
             entity.Property(e => e.RoleName).HasMaxLength(10);
+        });
+
+        modelBuilder.Entity<StepTask>(entity =>
+        {
+            entity.HasKey(e => e.StepTaskId).HasName("PK__StepTask__45192A89CDCABAFE");
+
+            entity.ToTable("StepTask");
+
+            entity.HasOne(d => d.Step).WithMany(p => p.StepTasks)
+                .HasForeignKey(d => d.StepId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StepTask_RecipeStep");
+
+            entity.HasOne(d => d.Task).WithMany(p => p.StepTasks)
+                .HasForeignKey(d => d.TaskId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StepTask_RobotTask");
         });
 
         modelBuilder.Entity<User>(entity =>
