@@ -9,7 +9,7 @@ namespace AutoChefSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RoleController : ControllerBase
     {
         private readonly RoleService _roleService;
