@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoChefSystem.DAL\AutoChefSystem.DAL.csproj" />
+    <ProjectReference Include="..\AutoChefSystem.DAL\AutoChefSystem.Repositories.csproj" />
   </ItemGroup>
 
   <ItemGroup>

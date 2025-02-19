@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoChefSystem.BAL\AutoChefSystem.BAL.csproj" />
+    <ProjectReference Include="..\AutoChefSystem.BAL\AutoChefSystem.Services.csproj" />
   </ItemGroup>
 
 </Project>

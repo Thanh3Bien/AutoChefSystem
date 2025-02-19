@@ -5,9 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoChefSystem.API", "AutoChefSystem.API\AutoChefSystem.API.csproj", "{71709D41-AE50-4E7A-A2B9-C2923872BA62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoChefSystem.BAL", "AutoChefSystem.BAL\AutoChefSystem.BAL.csproj", "{EF21759E-3058-4F7B-98D2-D40AB331033C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoChefSystem.Services", "AutoChefSystem.BAL\AutoChefSystem.Services.csproj", "{EF21759E-3058-4F7B-98D2-D40AB331033C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoChefSystem.DAL", "AutoChefSystem.DAL\AutoChefSystem.DAL.csproj", "{9F67BCD4-A3F4-4EA2-82C9-7F1AA3CFACC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoChefSystem.Repositories", "AutoChefSystem.DAL\AutoChefSystem.Repositories.csproj", "{9F67BCD4-A3F4-4EA2-82C9-7F1AA3CFACC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
