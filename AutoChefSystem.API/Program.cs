@@ -35,7 +35,7 @@ namespace AutoChefSystem.API
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Jewelry Sales System API"
+                    Title = "AutoChef System API"
                 });
 
                 var jwtSecurityScheme = new OpenApiSecurityScheme

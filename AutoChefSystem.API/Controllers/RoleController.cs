@@ -7,18 +7,33 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoChefSystem.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/roles")]
     [ApiController]
     //[Authorize]
     public class RoleController : ControllerBase
     {
         private readonly RoleService _roleService;
-        public RoleController(RoleService roleService)
+        private readonly ILogger<RoleController> _logger;
+        public RoleController(RoleService roleService,
+            ILogger<RoleController> logger)
         {
-           _roleService = roleService;
+            _roleService = roleService;
+            _logger = logger;
         }
 
-        [HttpGet]
+        #region Get Role by Id
+        /// <summary>
+        /// Get a role based on Id in the system
+        /// </summary>
+        /// <param name="id">Id of the role you want to get</param>
+        /// <returns>A role</returns>
+        /// <response code="200">Return a role in the system</response>
+        /// <response code="400">If the role is null</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server</response>
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             try
@@ -38,6 +53,7 @@ namespace AutoChefSystem.API.Controllers
                 ErrorMessage = "No role in data"
             });
         }
+        #endregion
 
         [HttpPost]
         public async Task<IActionResult> AddAsync(CreateRoleRequest createRoleRequest)
