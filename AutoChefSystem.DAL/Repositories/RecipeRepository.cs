@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoChefSystem.DAL;
 using AutoChefSystem.DAL.Entities;
 using AutoChefSystem.DAL.Infrastructures;
+using AutoChefSystem.DAL.Repositories;
 using AutoChefSystem.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AutoChefSystem.Repositories.Repositories
@@ -18,5 +20,20 @@ namespace AutoChefSystem.Repositories.Repositories
         ILogger logger) : base(context, logger)
         {
         }
+
+
+        public async Task<List<Recipe>> GetAllAsync()
+        {
+            try
+            {
+                return await _dbSet.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching all recipes.");
+                throw;
+            }
+        }
+
     }
 }

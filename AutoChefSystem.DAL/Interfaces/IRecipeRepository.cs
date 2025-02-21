@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoChefSystem.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IRecipeRepository
     {
+        Task<List<Recipe>> GetAllAsync();
     }
 }
