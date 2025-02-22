@@ -17,10 +17,8 @@ namespace AutoChefSystem.Services.Mappings
         public MappingProfiles()
         {
             #region Recipe
-            CreateMap<Recipe, GetAllRecipeRequest>();
-            CreateMap<GetAllRecipeRequest, Recipe>();
-            CreateMap<UpdateRecipeByIdRequest, Recipe>();
-            CreateMap<Recipe, UpdateRecipeByIdRequest>();
+            CreateMap<Recipe, GetAllRecipeRequest>().ReverseMap();
+            CreateMap<UpdateRecipeByIdRequest, Recipe>().ReverseMap();
             #endregion
         }
     }
