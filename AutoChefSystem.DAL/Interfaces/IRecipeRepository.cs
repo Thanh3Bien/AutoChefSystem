@@ -10,5 +10,7 @@ namespace AutoChefSystem.Repositories.Interfaces
     public interface IRecipeRepository
     {
         Task<List<Recipe>> GetAllAsync();
+
+        Task UpdateAsync(Recipe updateRecipe);
     }
 }

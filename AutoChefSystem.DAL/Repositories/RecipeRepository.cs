@@ -35,5 +35,19 @@ namespace AutoChefSystem.Repositories.Repositories
             }
         }
 
+        public async Task UpdateAsync(Recipe updateRecipe)
+        {
+            try
+            {
+                _dbSet.Update(updateRecipe);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating the recipe.");
+                throw;
+            }
+        }
+
     }
 }

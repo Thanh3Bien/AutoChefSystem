@@ -19,6 +19,8 @@ namespace AutoChefSystem.Services.Mappings
             #region Recipe
             CreateMap<Recipe, GetAllRecipeRequest>();
             CreateMap<GetAllRecipeRequest, Recipe>();
+            CreateMap<UpdateRecipeByIdRequest, Recipe>();
+            CreateMap<Recipe, UpdateRecipeByIdRequest>();
             #endregion
         }
     }

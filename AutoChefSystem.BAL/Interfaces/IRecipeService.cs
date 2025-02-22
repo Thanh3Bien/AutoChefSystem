@@ -12,5 +12,7 @@ namespace AutoChefSystem.Services.Interfaces
     public interface IRecipeService
     {
         Task<List<GetAllRecipeRequest>> GetAllAsync();
+
+        Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe);
     }
 }

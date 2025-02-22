@@ -1,4 +1,6 @@
-﻿using AutoChefSystem.Services.Interfaces;
+﻿using AutoChefSystem.BAL.Models.Users;
+using AutoChefSystem.Services.Interfaces;
+using AutoChefSystem.Services.Models.Recipe;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -51,6 +53,27 @@ namespace AutoChefSystem.API.Controllers
                 return StatusCode(500, new { ErrorMessage = "An unexpected error occurred. Please try again later." });
             }
         }
+        #endregion
+
+        #region 
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateRecipeByIdRequest updateRecipe)
+        {
+            try
+            {
+                var updatedRecipe = await _recipeService.UpdateAsync(updateRecipe);
+                return Ok(updatedRecipe);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
+        }
+
         #endregion
     }
 }
