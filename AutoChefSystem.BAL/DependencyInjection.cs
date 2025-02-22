@@ -19,9 +19,10 @@ namespace AutoChefSystem.BAL
             services.AddScoped<RoleService>();
             services.AddScoped<UserService>();
             services.AddScoped<RecipeService>();
+            services.AddScoped<OrderService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRecipeService, RecipeService>();
-
+            services.AddScoped<IOrderService, OrderService>();
             //services.AddScoped<IBrothService, BrothService>();
             //services.AddScoped<INoodleService, NoodleService>();
 

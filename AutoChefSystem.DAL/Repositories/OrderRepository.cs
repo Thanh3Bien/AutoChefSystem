@@ -18,5 +18,20 @@ namespace AutoChefSystem.Repositories.Repositories
         ILogger logger) : base(context, logger)
         {
         }
+
+        public async  Task<Order?> CreateAsync(Order order)
+        {
+            try
+            {
+                await _dbSet.AddAsync(order);
+                await _context.SaveChangesAsync();
+                return order;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating new order .");
+                throw;
+            }
+        }
     }
 }
