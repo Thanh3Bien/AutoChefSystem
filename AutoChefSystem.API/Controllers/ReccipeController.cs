@@ -30,16 +30,18 @@ namespace AutoChefSystem.API.Controllers
         /// <response code="400">Invalid request</response>
         /// <response code="404">No recipes found</response>
         /// <response code="500">Internal server error</response>
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllRecipes()
+        /// 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllRecipes([FromQuery] string? name, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
+        
             try
             {
-                var recipes = await _recipeService.GetAllAsync();
-                if (recipes is not null)
+                var result = await _recipeService.GetAllRecipesAsync(name, page, pageSize);
+
+                if (result is not null)
                 {
-                    return Ok(recipes);
+                    return Ok(result);
                 }
 
                 return NotFound(new

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoChefSystem.Services.Models.Recipe
 {
-    public class GetAllRecipeRequest
+    public class GetAllRecipeResponse
     {
         public int RecipeId { get; set; }
 

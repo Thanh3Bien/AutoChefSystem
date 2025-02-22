@@ -22,18 +22,36 @@ namespace AutoChefSystem.Repositories.Repositories
         }
 
 
-        public async Task<List<Recipe>> GetAllAsync()
+        public async Task<(List<Recipe>, int)> GetAllRecipesAsync(string? name, int page, int pageSize)
         {
             try
             {
-                return await _dbSet.ToListAsync();
+                var query = _dbSet.AsQueryable();
+
+                // Filter by name
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    query = query.Where(r => r.RecipeName.Contains(name));
+                }
+
+                // Get total count for pagination
+                var totalCount = await query.CountAsync();
+
+                // Pagination
+                var recipes = await query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return (recipes, totalCount);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while fetching all recipes.");
+                _logger.LogError(ex, "Error while fetching recipes.");
                 throw;
             }
         }
+
 
         public async Task UpdateAsync(Recipe updateRecipe)
         {

@@ -23,11 +23,20 @@ namespace AutoChefSystem.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<List<GetAllRecipeRequest>> GetAllAsync()
+        public async Task<PaginatedRecipeResponse> GetAllRecipesAsync(string? name, int page, int pageSize)
         {
-            var recipes = await _unitOfWork.Recipes.GetAllAsync();
-            return _mapper.Map<List<GetAllRecipeRequest>>(recipes);
+            var (recipes, totalCount) = await _unitOfWork.Recipes.GetAllRecipesAsync(name, page, pageSize);
+            var recipeDtos = _mapper.Map<List<GetAllRecipeResponse>>(recipes);
+
+            return new PaginatedRecipeResponse
+            {
+                Recipes = recipeDtos,
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize
+            };
         }
+
 
         public async Task<GetRecipeByIdResponse?> GetByIdAsync(int id)
         {
@@ -40,29 +49,29 @@ namespace AutoChefSystem.Services.Services
             return _mapper.Map<GetRecipeByIdResponse>(recipe);
         }
 
-        public async Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe)
-        {
-            var recipe = _mapper.Map<Recipe>(updateRecipe); 
-            await _unitOfWork.Recipes.UpdateAsync(recipe);
-            await _unitOfWork.CompleteAsync(); 
-
-            return _mapper.Map<UpdateRecipeByIdRequest>(recipe); 
-        }
-
         //public async Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe)
         //{
-        //    var existingRecipe = await _unitOfWork.Recipes.GetByIdAsync(updateRecipe.Id);
-        //    if (existingRecipe == null)
-        //    {
-        //        throw new KeyNotFoundException($"Recipe with ID {updateRecipe.Id} not found.");
-        //    }
+        //    var recipe = _mapper.Map<Recipe>(updateRecipe); 
+        //    await _unitOfWork.Recipes.UpdateAsync(recipe);
+        //    await _unitOfWork.CompleteAsync(); 
 
-        //    _mapper.Map(updateRecipe, existingRecipe); // Update entity fields
-        //    await _unitOfWork.Recipes.UpdateAsync(existingRecipe);
-        //    await _unitOfWork.CompleteAsync();
-
-        //    return _mapper.Map<UpdateRecipeByIdRequest>(existingRecipe); // Return updated DTO
+        //    return _mapper.Map<UpdateRecipeByIdRequest>(recipe); 
         //}
+
+        public async Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe)
+        {
+            var existingRecipe = await _unitOfWork.Recipes.GetByIdAsync(updateRecipe.RecipeId);
+            if (existingRecipe == null)
+            {
+                throw new KeyNotFoundException($"Recipe with ID {updateRecipe.RecipeId} not found.");
+            }
+
+            _mapper.Map(updateRecipe, existingRecipe); // Update entity fields
+            await _unitOfWork.Recipes.UpdateAsync(existingRecipe);
+            await _unitOfWork.CompleteAsync();
+
+            return _mapper.Map<UpdateRecipeByIdRequest>(existingRecipe); // Return updated DTO
+        }
 
 
     }

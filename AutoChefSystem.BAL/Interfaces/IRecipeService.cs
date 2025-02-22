@@ -11,7 +11,7 @@ namespace AutoChefSystem.Services.Interfaces
 {
     public interface IRecipeService
     {
-        Task<List<GetAllRecipeRequest>> GetAllAsync();
+        Task<PaginatedRecipeResponse> GetAllRecipesAsync(string? name, int page, int pageSize);
 
         Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe);
 
