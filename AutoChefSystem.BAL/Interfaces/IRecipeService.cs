@@ -17,5 +17,7 @@ namespace AutoChefSystem.Services.Interfaces
 
         Task<GetRecipeByIdResponse?> GetByIdAsync(int id);
 
+        Task<CreateRecipeRequest?> CreateRecipeAsync(CreateRecipeRequest createRecipe);
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoChefSystem.BAL.Models.Users;
+using AutoChefSystem.DAL.Entities;
 using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Recipe;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +90,24 @@ namespace AutoChefSystem.API.Controllers
             }
             return Ok(recipe);
         }
+
+
+        #endregion
+
+        #region
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateRecipe([FromBody] CreateRecipeRequest createRecipeRequest)
+        {
+
+            var result = await _recipeService.CreateRecipeAsync(createRecipeRequest);
+           
+            if (result == null)
+            {
+                return NotFound(new { message = $"Error when create new recipe " });
+            }
+            return Ok(result);
+        }
+
 
 
         #endregion

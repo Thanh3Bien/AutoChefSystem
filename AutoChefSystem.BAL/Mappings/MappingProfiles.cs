@@ -20,6 +20,7 @@ namespace AutoChefSystem.Services.Mappings
             CreateMap<Recipe, GetAllRecipeResponse>().ReverseMap();
             CreateMap<UpdateRecipeByIdRequest, Recipe>().ReverseMap();
             CreateMap<GetRecipeByIdResponse, Recipe>().ReverseMap();
+            CreateMap<CreateRecipeRequest,Recipe>().ReverseMap();
 
             #endregion
         }

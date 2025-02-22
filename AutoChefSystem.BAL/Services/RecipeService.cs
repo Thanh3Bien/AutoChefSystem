@@ -49,14 +49,6 @@ namespace AutoChefSystem.Services.Services
             return _mapper.Map<GetRecipeByIdResponse>(recipe);
         }
 
-        //public async Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe)
-        //{
-        //    var recipe = _mapper.Map<Recipe>(updateRecipe); 
-        //    await _unitOfWork.Recipes.UpdateAsync(recipe);
-        //    await _unitOfWork.CompleteAsync(); 
-
-        //    return _mapper.Map<UpdateRecipeByIdRequest>(recipe); 
-        //}
 
         public async Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe)
         {
@@ -66,14 +58,22 @@ namespace AutoChefSystem.Services.Services
                 throw new KeyNotFoundException($"Recipe with ID {updateRecipe.RecipeId} not found.");
             }
 
-            _mapper.Map(updateRecipe, existingRecipe); // Update entity fields
+            _mapper.Map(updateRecipe, existingRecipe); 
             await _unitOfWork.Recipes.UpdateAsync(existingRecipe);
             await _unitOfWork.CompleteAsync();
 
-            return _mapper.Map<UpdateRecipeByIdRequest>(existingRecipe); // Return updated DTO
+            return _mapper.Map<UpdateRecipeByIdRequest>(existingRecipe); 
         }
+        
 
+        public async Task<CreateRecipeRequest?> CreateRecipeAsync(CreateRecipeRequest createRecipe)
+        {
+            var recipe = _mapper.Map<Recipe>(createRecipe);
+            var createdRecipe = await _unitOfWork.Recipes.CreateAsync(recipe);
+            await _unitOfWork.CompleteAsync();
 
+            return _mapper.Map<CreateRecipeRequest>(createRecipe);
+        }
     }
 
 }

@@ -21,6 +21,21 @@ namespace AutoChefSystem.Repositories.Repositories
         {
         }
 
+        public async Task<Recipe> CreateAsync(Recipe recipe)
+        {
+            try
+            {
+                await _dbSet.AddAsync(recipe);
+                await _context.SaveChangesAsync();
+                return recipe;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating a recipe.");
+                throw;
+            }
+        }
+
 
         public async Task<(List<Recipe>, int)> GetAllRecipesAsync(string? name, int page, int pageSize)
         {
