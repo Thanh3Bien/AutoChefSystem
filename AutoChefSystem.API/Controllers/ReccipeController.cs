@@ -55,7 +55,7 @@ namespace AutoChefSystem.API.Controllers
         }
         #endregion
 
-        #region 
+        #region Update Recipe
         [HttpPut]
         public async Task<IActionResult> UpdateAsync([FromBody] UpdateRecipeByIdRequest updateRecipe)
         {
@@ -73,6 +73,21 @@ namespace AutoChefSystem.API.Controllers
                 return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
             }
         }
+
+        #endregion
+
+        #region Get Recipe By Id
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            var recipe = await _recipeService.GetByIdAsync(id);
+            if (recipe == null)
+            {
+                return NotFound(new { message = $"Recipe with ID {id} not found." });
+            }
+            return Ok(recipe);
+        }
+
 
         #endregion
     }

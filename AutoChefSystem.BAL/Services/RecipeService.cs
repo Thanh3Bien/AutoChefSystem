@@ -29,6 +29,17 @@ namespace AutoChefSystem.Services.Services
             return _mapper.Map<List<GetAllRecipeRequest>>(recipes);
         }
 
+        public async Task<GetRecipeByIdResponse?> GetByIdAsync(int id)
+        {
+            var recipe = await _unitOfWork.Recipes.GetByIdAsync(id);
+            if (recipe == null)
+            {
+                return null; 
+            }
+
+            return _mapper.Map<GetRecipeByIdResponse>(recipe);
+        }
+
         public async Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe)
         {
             var recipe = _mapper.Map<Recipe>(updateRecipe); 

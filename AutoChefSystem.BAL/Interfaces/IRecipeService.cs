@@ -14,5 +14,8 @@ namespace AutoChefSystem.Services.Interfaces
         Task<List<GetAllRecipeRequest>> GetAllAsync();
 
         Task<UpdateRecipeByIdRequest> UpdateAsync(UpdateRecipeByIdRequest updateRecipe);
+
+        Task<GetRecipeByIdResponse?> GetByIdAsync(int id);
+
     }
 }

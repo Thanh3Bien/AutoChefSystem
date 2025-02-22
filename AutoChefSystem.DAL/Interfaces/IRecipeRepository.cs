@@ -12,5 +12,8 @@ namespace AutoChefSystem.Repositories.Interfaces
         Task<List<Recipe>> GetAllAsync();
 
         Task UpdateAsync(Recipe updateRecipe);
+
+        Task<Recipe?> GetByIdAsync(int id);
+
     }
 }
