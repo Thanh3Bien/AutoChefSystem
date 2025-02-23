@@ -20,7 +20,7 @@ namespace AutoChefSystem.API.Controllers
             _orderService = orderService;
         }
 
-        #region
+        #region Create new order 
         [HttpPost("create")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest createOrder )
         {
@@ -35,6 +35,45 @@ namespace AutoChefSystem.API.Controllers
         }
 
         #endregion
+
+        #region Get Order By Id
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            var order = await _orderService.GetByIdAsync(id);
+            if (order == null)
+            {
+                return NotFound(new { message = $"Order with ID {id} not found." });
+            }
+            return Ok(order);
+        }
+
+
+        #endregion
+
+        #region Update Order
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateOrderRequest updateOrder )
+        {
+            try
+            {
+                var result = await _orderService.UpdateAsync(updateOrder);
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred.", details = ex.Message });
+            }
+        }
+
+        #endregion
+
+
+
 
     }
 }

@@ -24,8 +24,10 @@ namespace AutoChefSystem.Services.Mappings
             CreateMap<CreateRecipeRequest,Recipe>().ReverseMap();
             #endregion
 
-            #region
+            #region Order
             CreateMap<CreateOrderRequest, Order>().ReverseMap();
+            CreateMap<UpdateOrderRequest, Order>().ReverseMap();
+            CreateMap<GetOrderByIdResponse, Order>().ReverseMap();
             #endregion
         }
     }

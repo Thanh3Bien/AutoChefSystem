@@ -11,5 +11,9 @@ namespace AutoChefSystem.Services.Interfaces
     public interface IOrderService
     {
         Task<CreateOrderRequest> CreateOrderAsync(CreateOrderRequest createOrders);
+
+        Task<UpdateOrderRequest> UpdateAsync(UpdateOrderRequest updateOrder);
+
+        Task<GetOrderByIdResponse?> GetByIdAsync(int id);
     }
 }

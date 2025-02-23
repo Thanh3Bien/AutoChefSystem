@@ -24,8 +24,7 @@ namespace AutoChefSystem.Repositories.Repositories
             try
             {
                 await _dbSet.AddAsync(order);
-                await _context.SaveChangesAsync();
-                return order;
+                return order;                                                                                                                
             }
             catch (Exception ex)
             {
@@ -33,5 +32,19 @@ namespace AutoChefSystem.Repositories.Repositories
                 throw;
             }
         }
+
+        public async Task UpdateAsync(Order updateOrder)
+        {
+            try
+            {
+                _dbSet.Update(updateOrder);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating the order.");
+                throw;
+            }
+        }
     }
-}
+    }
+

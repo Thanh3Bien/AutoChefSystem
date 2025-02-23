@@ -10,5 +10,11 @@ namespace AutoChefSystem.Repositories.Interfaces
     public interface IOrderRepository
     {
         Task<Order?> CreateAsync(Order order);
+
+        Task UpdateAsync(Order updateOrder);
+
+        Task<Order?> GetByIdAsync(int id);
+
+
     }
 }

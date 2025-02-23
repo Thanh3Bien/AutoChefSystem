@@ -31,5 +31,37 @@ namespace AutoChefSystem.Services.Services
 
             return _mapper.Map<CreateOrderRequest>(createOrder);
         }
+
+        public async Task<GetOrderByIdResponse?> GetByIdAsync(int id)
+        {
+
+            var order = await _unitOfWork.Orders.GetByIdAsync(id);
+            if (order == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<GetOrderByIdResponse>(order);
+        }
+
+        public async Task<UpdateOrderRequest> UpdateAsync(UpdateOrderRequest updateOrder)
+        {
+
+            var existingOrder = await _unitOfWork.Orders.GetByIdAsync(updateOrder.OrderId);
+            if (existingOrder == null)
+            {
+                throw new Exception("Order not found.");
+            }
+
+            _mapper.Map(updateOrder, existingOrder);
+            _unitOfWork.Orders.UpdateAsync(existingOrder);
+
+
+            await _unitOfWork.CompleteAsync();
+
+            return _mapper.Map<UpdateOrderRequest>(existingOrder);
+        }
+
+      
     }
 }
