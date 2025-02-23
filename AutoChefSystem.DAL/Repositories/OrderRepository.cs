@@ -34,28 +34,33 @@ namespace AutoChefSystem.Repositories.Repositories
             }
         }
 
-        public async Task<(List<Order>, int)> GetAllOdersAsync(string? status, int page, int pageSize)
+        public async Task<(List<Order>, int)> GetAllOdersAsync(bool sort, string? status, int page, int pageSize)
         {
             try
             {
                 var query = _dbSet.AsQueryable();
 
-                // Filter by name
+              
                 if (!string.IsNullOrWhiteSpace(status))
                 {
                     query = query.Where(r => r.Status.Contains(status));
                 }
 
-                // Get total count for pagination
+               
+                query = sort
+                    ? query.OrderByDescending(r => r.OrderedTime) 
+                    : query.OrderBy(r => r.OrderedTime);          
+
+                
                 var totalCount = await query.CountAsync();
 
-                // Pagination
-                var recipes = await query
+                
+                var orders = await query
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
 
-                return (recipes, totalCount);
+                return (orders, totalCount);
             }
             catch (Exception ex)
             {
@@ -63,6 +68,7 @@ namespace AutoChefSystem.Repositories.Repositories
                 throw;
             }
         }
+
 
 
 

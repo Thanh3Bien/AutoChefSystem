@@ -73,13 +73,31 @@ namespace AutoChefSystem.API.Controllers
         #endregion
 
         #region Get All Order 
+        /// <summary>
+        /// Get all orders in the system with optional filtering, pagination, and sorting.
+        /// </summary>
+        /// <param name="page">Current page number (default is 1)</param>
+        /// <param name="pageSize">Number of orders per page (default is 10)</param>
+        /// <param name="status">Filter orders by status (optional)</param>
+        /// <param name="sort">Sort orders by time: true for newest first, false for oldest first (default is true)</param>
+        /// <returns>A paginated list of orders</returns>
+        /// <response code="200">Returns the list of orders</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">No orders found</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllOrders([FromQuery] string? status, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
-        {
+        public async Task<IActionResult> GetAllOrders(
+            [FromQuery] string? status,
+            [FromQuery] bool sort = true,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
 
+        {
             try
             {
-                var result = await _orderService.GetAllOrdersAsync(status, page, pageSize);
+                var result = await _orderService.GetAllOrdersAsync(sort, status, page, pageSize);
 
                 if (result is not null)
                 {
@@ -97,6 +115,7 @@ namespace AutoChefSystem.API.Controllers
                 return StatusCode(500, new { ErrorMessage = "An unexpected error occurred. Please try again later." });
             }
         }
+
         #endregion
 
 

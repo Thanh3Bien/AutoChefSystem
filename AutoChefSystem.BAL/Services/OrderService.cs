@@ -62,9 +62,9 @@ namespace AutoChefSystem.Services.Services
             return _mapper.Map<UpdateOrderRequest>(existingOrder);
         }
 
-        public async Task<PaginatedOrderResponse> GetAllOrdersAsync(string? status, int page, int pageSize)
+        public async Task<PaginatedOrderResponse> GetAllOrdersAsync(bool sort, string? status, int page, int pageSize)
         {
-            var (orders, totalCount) = await _unitOfWork.Orders.GetAllOdersAsync(status, page, pageSize);
+            var (orders, totalCount) = await _unitOfWork.Orders.GetAllOdersAsync(sort, status, page, pageSize );
             var ordersList = _mapper.Map<List<GetAllOrderResponse>>(orders);
 
             return new PaginatedOrderResponse
@@ -75,6 +75,7 @@ namespace AutoChefSystem.Services.Services
                 PageSize = pageSize
             };
         }
+
 
 
 
