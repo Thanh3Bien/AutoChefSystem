@@ -72,6 +72,33 @@ namespace AutoChefSystem.API.Controllers
 
         #endregion
 
+        #region Get All Order 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllOrders([FromQuery] string? status, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        {
+
+            try
+            {
+                var result = await _orderService.GetAllOrdersAsync(status, page, pageSize);
+
+                if (result is not null)
+                {
+                    return Ok(result);
+                }
+
+                return NotFound(new
+                {
+                    ErrorMessage = "No order found in the database."
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching order.");
+                return StatusCode(500, new { ErrorMessage = "An unexpected error occurred. Please try again later." });
+            }
+        }
+        #endregion
+
 
 
 

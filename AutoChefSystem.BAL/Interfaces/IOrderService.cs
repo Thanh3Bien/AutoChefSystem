@@ -15,5 +15,7 @@ namespace AutoChefSystem.Services.Interfaces
         Task<UpdateOrderRequest> UpdateAsync(UpdateOrderRequest updateOrder);
 
         Task<GetOrderByIdResponse?> GetByIdAsync(int id);
+
+        Task<PaginatedOrderResponse> GetAllOrdersAsync(string? status, int page, int pageSize);
     }
 }
