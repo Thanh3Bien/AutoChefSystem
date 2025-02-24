@@ -118,6 +118,19 @@ namespace AutoChefSystem.API.Controllers
 
         #endregion
 
+        #region Change status Order 
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateOrderStatusAsync(int id)
+        {
+            var result = await _orderService.UpdateOrderStatusAsync(id);
+            if (!result)
+            {
+                return NotFound(new { message = $"Order with ID {id} not found or no changes were made." });
+            }
+            return Ok(new { message = "Order status updated successfully." });
+        }
+
+        #endregion
 
 
 
