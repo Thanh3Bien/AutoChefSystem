@@ -16,6 +16,8 @@ namespace AutoChefSystem.Repositories.Interfaces
         Task<Order?> GetByIdAsync(int id);
         Task<(List<Order>, int)> GetAllOdersAsync( bool sort, string? status, int page, int pageSize);
 
+        Task<bool> UpdateOrderStatusAsync(Order order);
+
 
     }
 }
