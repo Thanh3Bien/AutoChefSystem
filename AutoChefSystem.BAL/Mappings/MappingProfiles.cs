@@ -1,6 +1,7 @@
 ﻿using AutoChefSystem.DAL.Entities;
 using AutoChefSystem.Services.Models.Order;
 using AutoChefSystem.Services.Models.Recipe;
+using AutoChefSystem.Services.Models.RecipeSteps;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,10 @@ namespace AutoChefSystem.Services.Mappings
             CreateMap<UpdateOrderRequest, Order>().ReverseMap();
             CreateMap<GetOrderByIdResponse, Order>().ReverseMap();
             CreateMap<GetAllOrderResponse, Order>().ReverseMap();
+            #endregion
+
+            #region RecipeStep
+            CreateMap<RecipeStep, GetByRecipeIdRequest>().ReverseMap();
             #endregion
         }
     }

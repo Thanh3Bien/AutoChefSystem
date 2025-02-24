@@ -22,9 +22,13 @@ namespace AutoChefSystem.BAL
             services.AddScoped<OrderService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRecipeService, RecipeService>();
+
             services.AddScoped<IOrderService, OrderService>();
-            //services.AddScoped<IBrothService, BrothService>();
-            //services.AddScoped<INoodleService, NoodleService>();
+
+
+
+            services.AddScoped<IRecipeStepService, RecipeStepService>();
+
 
             //Mapper
             services.AddAutoMapper(typeof(MappingProfiles));

@@ -54,7 +54,17 @@ namespace AutoChefSystem.API.Controllers
             });
         }
         #endregion
-
+        #region Add new Role
+        /// <summary>
+        /// Add a new role
+        /// </summary>
+        /// <returns>A role was created</returns>
+        /// <response code="200">A role was created</response>
+        /// <response code="400">Failed validation</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server</response>
         [HttpPost]
         public async Task<IActionResult> AddAsync(CreateRoleRequest createRoleRequest)
         {
@@ -73,6 +83,6 @@ namespace AutoChefSystem.API.Controllers
             }
             return BadRequest();
         }
-
+        #endregion
     }
 }
