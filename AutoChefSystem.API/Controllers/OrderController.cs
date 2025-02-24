@@ -119,6 +119,15 @@ namespace AutoChefSystem.API.Controllers
         #endregion
 
         #region Change status Order 
+        /// <summary>
+        /// Updates the status of an order by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the order to be updated.</param>
+        /// <returns>
+        /// - Returns 200 OK if the order status is successfully updated.<br/>
+        /// - Returns 404 Not Found if the order is not found or no changes were made.<br/>
+        /// - Includes a message indicating the result.
+        /// </returns>
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateOrderStatusAsync(int id)
         {
