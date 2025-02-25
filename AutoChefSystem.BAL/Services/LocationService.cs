@@ -1,5 +1,5 @@
-﻿using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Infrastructures;
+﻿using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Location;
 using AutoChefSystem.Services.Models.RobotType;

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoChefSystem.BAL.Models.Users;
-using AutoChefSystem.DAL.Entities;
+using AutoChefSystem.Repositories.Entities;
 
-namespace AutoChefSystem.BAL.Interfaces
+
+namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IUserService
     {

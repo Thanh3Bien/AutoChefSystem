@@ -1,5 +1,5 @@
-﻿using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Infrastructures;
+﻿using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Robots;
 using AutoChefSystem.Services.Models.RobotType;
@@ -68,6 +68,18 @@ namespace AutoChefSystem.Services.Services
 
         public async Task<MessageResponse<RobotResponse>> CreateAsync(CreateRobotRequest request)
         {
+            var location = await _unitOfWork.Locations.GetByIdAsync(request.LocationId);
+            if (location == null || !location.IsActive)
+            {
+                return new MessageResponse<RobotResponse>("Location is inactive or not found", null);
+            }
+
+            var robotType = await _unitOfWork.RobotTypes.GetByIdAsync(request.RobotTypeId);
+            if (robotType == null)
+            {
+                return new MessageResponse<RobotResponse>("Robot type is inactive or not found", null);
+            }
+
             var robot = new Robot
             {
                 RobotTypeId = request.RobotTypeId,
@@ -81,11 +93,24 @@ namespace AutoChefSystem.Services.Services
             return new MessageResponse<RobotResponse>("Robot created successfully", _mapper.Map<RobotResponse>(robot));
         }
 
+
         public async Task<MessageResponse<RobotResponse?>> UpdateAsync(int id, UpdateRobotRequest request)
         {
             var existingRobot = await _unitOfWork.Robots.GetByIdAsync(id);
             if (existingRobot == null)
                 return new MessageResponse<RobotResponse?>("Robot not found", null);
+
+            var location = await _unitOfWork.Locations.GetByIdAsync(request.LocationId);
+            if (location == null || !location.IsActive)
+            {
+                return new MessageResponse<RobotResponse?>("Location is inactive or not found", null);
+            }
+
+            var robotType = await _unitOfWork.RobotTypes.GetByIdAsync(request.RobotTypeId);
+            if (robotType == null)
+            {
+                return new MessageResponse<RobotResponse?>("Robot type is inactive or not found", null);
+            }
 
             existingRobot.RobotTypeId = request.RobotTypeId;
             existingRobot.LocationId = request.LocationId;
@@ -96,6 +121,7 @@ namespace AutoChefSystem.Services.Services
 
             return new MessageResponse<RobotResponse?>("Robot updated successfully", _mapper.Map<RobotResponse>(existingRobot));
         }
+
 
         public async Task<MessageResponse<bool>> DeleteAsync(int id)
         {

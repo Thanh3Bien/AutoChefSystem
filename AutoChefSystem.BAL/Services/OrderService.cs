@@ -1,5 +1,6 @@
-﻿using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Infrastructures;
+﻿
+using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Order;
 using AutoChefSystem.Services.Models.Recipe;
@@ -64,7 +65,7 @@ namespace AutoChefSystem.Services.Services
 
         public async Task<PaginatedOrderResponse> GetAllOrdersAsync(bool sort, string? status, int page, int pageSize)
         {
-            var (orders, totalCount) = await _unitOfWork.Orders.GetAllOdersAsync(sort, status, page, pageSize );
+            var (orders, totalCount) = await _unitOfWork.Orders.GetAllOdersAsync(sort, status, page, pageSize);
             var ordersList = _mapper.Map<List<GetAllOrderResponse>>(orders);
 
             return new PaginatedOrderResponse
@@ -76,8 +77,23 @@ namespace AutoChefSystem.Services.Services
             };
         }
 
+        public async Task<bool> UpdateOrderStatusAsync(int id)
+        {
+            var order = await _unitOfWork.Orders.GetByIdAsync(id);
+            if (order == null)
+            {
+                return false; 
+            }
 
+            var updated = await _unitOfWork.Orders.UpdateOrderStatusAsync(order);
+            if (!updated)
+            {
+                return false; 
+            }
 
+            await _unitOfWork.CompleteAsync();
+            return true; 
+        }
 
 
     }

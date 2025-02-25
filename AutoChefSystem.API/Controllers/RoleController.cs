@@ -1,6 +1,5 @@
 ﻿using AutoChefSystem.BAL.Models.Roles;
 using AutoChefSystem.BAL.Services;
-using AutoChefSystem.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

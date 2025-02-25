@@ -1,4 +1,4 @@
-﻿using AutoChefSystem.DAL.Entities;
+﻿using AutoChefSystem.Repositories.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

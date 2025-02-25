@@ -1,5 +1,4 @@
-﻿using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.Services.Models.Robots;
+﻿using AutoChefSystem.Services.Models.Robots;
 using AutoChefSystem.Services.Models.RobotType;
 using System;
 using System.Collections.Generic;

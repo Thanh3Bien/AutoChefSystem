@@ -1,5 +1,5 @@
-﻿using AutoChefSystem.DAL.Entities;
 using AutoChefSystem.Services.Models.Location;
+﻿using AutoChefSystem.Repositories.Entities;
 using AutoChefSystem.Services.Models.Order;
 using AutoChefSystem.Services.Models.Recipe;
 using AutoChefSystem.Services.Models.RecipeSteps;

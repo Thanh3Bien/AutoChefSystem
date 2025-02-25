@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoChefSystem.BAL.Interfaces;
 using AutoChefSystem.BAL.Models.Roles;
-using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Infrastructures;
-using AutoChefSystem.DAL.Repositories;
+using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Repositories.Infrastructures;
+using AutoChefSystem.Repositories.Interfaces;
 
 namespace AutoChefSystem.BAL.Services
 {

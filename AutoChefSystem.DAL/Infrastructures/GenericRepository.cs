@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoChefSystem.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace AutoChefSystem.DAL.Infrastructures
+namespace AutoChefSystem.Repositories.Infrastructures
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Infrastructures;
+using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Repositories.Infrastructures;
 
-namespace AutoChefSystem.DAL.Interfaces
+namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {

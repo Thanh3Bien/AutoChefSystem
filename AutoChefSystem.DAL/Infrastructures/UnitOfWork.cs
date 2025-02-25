@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Interfaces;
-using AutoChefSystem.DAL.Repositories;
+using AutoChefSystem.Repositories;
 using AutoChefSystem.Repositories.Interfaces;
 using AutoChefSystem.Repositories.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace AutoChefSystem.DAL.Infrastructures
+namespace AutoChefSystem.Repositories.Infrastructures
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -34,11 +32,8 @@ namespace AutoChefSystem.DAL.Infrastructures
 
         public IRobotOperationLogRepository RobotOperations { get; private set; }
 
-        public IRobotTaskRepository RobotTasks { get; private set; }
-
         public IRobotTypeRepository RobotTypes { get; private set; }
 
-        public IStepTaskRepository StepTasks { get; private set; }
 
         public UnitOfWork(
             AutoChefSystemContext context,
@@ -64,11 +59,8 @@ namespace AutoChefSystem.DAL.Infrastructures
 
             RobotOperations = new RobotOperationLogRepository(_context, _logger);
 
-            RobotTasks = new RobotTaskRepository(_context, _logger);
-
             RobotTypes = new RobotTypeRepository(_context, _logger);
 
-            StepTasks = new StepTaskRepository(_context, _logger);
 
 
         }

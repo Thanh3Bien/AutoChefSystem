@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text;
 using AutoChefSystem.BAL;
 using AutoChefSystem.DAL;
+using AutoChefSystem.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,11 +20,21 @@ namespace AutoChefSystem.API
             // Add services to the container.
             builder.Services.AddDbContext<AutoChefSystemContext>(options =>
             {
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             );
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+            builder.Services.AddHttpContextAccessor();
             builder.Services.ConfigureDALServices();
             builder.Services.ConfigureBALServices();
 
@@ -100,6 +111,7 @@ namespace AutoChefSystem.API
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
+            app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
             
 

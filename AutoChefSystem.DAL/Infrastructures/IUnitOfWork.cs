@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoChefSystem.DAL.Interfaces;
+//using AutoChefSystem.DAL.Interfaces;
 using AutoChefSystem.Repositories.Interfaces;
 
-namespace AutoChefSystem.DAL.Infrastructures
+namespace AutoChefSystem.Repositories.Infrastructures
 {
     public interface IUnitOfWork
     {
@@ -19,9 +19,7 @@ namespace AutoChefSystem.DAL.Infrastructures
         IRecipeStepRepository RecipeSteps { get; }
         IRobotRepository Robots { get; }    
         IRobotOperationLogRepository RobotOperations { get; }
-        IRobotTaskRepository RobotTasks { get; }
         IRobotTypeRepository RobotTypes { get; }
-        IStepTaskRepository StepTasks { get; }
 
         Task CompleteAsync();
 

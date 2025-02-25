@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoChefSystem.DAL.Infrastructures
+namespace AutoChefSystem.Repositories.Infrastructures
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {

@@ -1,9 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using AutoChefSystem.BAL.Interfaces;
 using AutoChefSystem.BAL.Models.Users;
-using AutoChefSystem.DAL.Entities;
+using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
