@@ -1,5 +1,4 @@
 ﻿using AutoChefSystem.BAL.Models.Users;
-using AutoChefSystem.DAL.Entities;
 using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Recipe;
 using Microsoft.AspNetCore.Mvc;

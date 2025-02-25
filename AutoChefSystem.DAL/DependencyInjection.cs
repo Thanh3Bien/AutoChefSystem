@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoChefSystem.DAL.Infrastructures;
+using AutoChefSystem.Repositories;
+using AutoChefSystem.Repositories.Infrastructures;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AutoChefSystem.DAL

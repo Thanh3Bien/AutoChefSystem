@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Infrastructures;
-using AutoChefSystem.DAL.Interfaces;
+using AutoChefSystem.Repositories.Infrastructures;
+using AutoChefSystem.Repositories;
+using AutoChefSystem.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using AutoChefSystem.Repositories.Interfaces;
 
-namespace AutoChefSystem.DAL.Repositories
+namespace AutoChefSystem.Repositories.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {

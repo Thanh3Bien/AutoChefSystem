@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoChefSystem.DAL;
-using AutoChefSystem.DAL.Entities;
-using AutoChefSystem.DAL.Infrastructures;
+using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Repositories.Interfaces;
 using Microsoft.Extensions.Logging;
 

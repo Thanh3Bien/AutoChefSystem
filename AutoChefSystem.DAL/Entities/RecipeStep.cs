@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AutoChefSystem.DAL.Entities;
+namespace AutoChefSystem.Repositories.Entities;
 
 public partial class RecipeStep
 {
@@ -15,5 +15,5 @@ public partial class RecipeStep
 
     public virtual Recipe Recipe { get; set; } = null!;
 
-    public virtual ICollection<StepTask> StepTasks { get; set; } = new List<StepTask>();
+    public virtual ICollection<RobotStepTask> RobotStepTasks { get; set; } = new List<RobotStepTask>();
 }

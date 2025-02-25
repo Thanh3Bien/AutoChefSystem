@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AutoChefSystem.DAL.Entities;
+namespace AutoChefSystem.Repositories.Entities;
 
 public partial class Role
 {

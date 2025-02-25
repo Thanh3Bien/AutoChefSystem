@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoChefSystem.BAL.Models.Roles;
-using AutoChefSystem.DAL.Entities;
 
-namespace AutoChefSystem.BAL.Interfaces
+
+namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IRoleService
     {

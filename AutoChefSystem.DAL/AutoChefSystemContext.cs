@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoChefSystem.DAL.Entities;
+using AutoChefSystem.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutoChefSystem.DAL;
+namespace AutoChefSystem.Repositories;
 
 public partial class AutoChefSystemContext : DbContext
 {
@@ -28,20 +28,19 @@ public partial class AutoChefSystemContext : DbContext
 
     public virtual DbSet<RobotOperationLog> RobotOperationLogs { get; set; }
 
-    public virtual DbSet<RobotTask> RobotTasks { get; set; }
+    public virtual DbSet<RobotStepTask> RobotStepTasks { get; set; }
 
     public virtual DbSet<RobotType> RobotTypes { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<StepTask> StepTasks { get; set; }
-
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-       // => optionsBuilder.UseSqlServer("Server=ROG-ZEPHYRUS-G1\\VIETDUC;Database=AutoChefSystem;Uid=sa;Pwd=123456;Trusted_Connection=True;TrustServerCertificate=True;");
-       //=> optionsBuilder.UseSqlServer("Server=tcp:autochefdbserver.database.windows.net,1433;Initial Catalog=AutoChefSystem;Persist Security Info=False;User ID=autochefdbserver;Password=@Testpassword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-       => optionsBuilder.UseSqlServer("Server=LAPTOP-39B7IASC\\SQLEXPRESS;Database=AutoChefSystem;Uid=sa;Pwd=1;Trusted_Connection=True;TrustServerCertificate=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        // => optionsBuilder.UseSqlServer("Server=ROG-ZEPHYRUS-G1\\VIETDUC;Database=AutoChefSystem;Uid=sa;Pwd=123456;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=tcp:autochefdbserver.database.windows.net,1433;Initial Catalog=AutoChefSystem;Persist Security Info=False;User ID=autochefdbserver;Password=@Testpassword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+    //=> optionsBuilder.UseSqlServer("Server=LAPTOP-39B7IASC\\SQLEXPRESS;Database=AutoChefSystem;Uid=sa;Pwd=1;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -145,14 +144,20 @@ public partial class AutoChefSystemContext : DbContext
                 .HasConstraintName("FK_RobotOperationLog_Robot");
         });
 
-        modelBuilder.Entity<RobotTask>(entity =>
+        modelBuilder.Entity<RobotStepTask>(entity =>
         {
-            entity.HasKey(e => e.RobotTaskId).HasName("PK__RobotTas__52CCC00BF0F4ACD9");
+            entity.HasKey(e => e.StepTaskId).HasName("PK__RobotSte__45192A89670340D3");
 
-            entity.ToTable("RobotTask");
+            entity.ToTable("RobotStepTask");
 
-            entity.Property(e => e.RobotTaskName).HasMaxLength(100);
+            entity.Property(e => e.StepTaskId).ValueGeneratedNever();
+            entity.Property(e => e.RepeatCount).HasDefaultValue(1);
             entity.Property(e => e.TaskDescription).HasMaxLength(255);
+
+            entity.HasOne(d => d.Step).WithMany(p => p.RobotStepTasks)
+                .HasForeignKey(d => d.StepId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RobotStepTask_StepId");
         });
 
         modelBuilder.Entity<RobotType>(entity =>
@@ -174,31 +179,16 @@ public partial class AutoChefSystemContext : DbContext
             entity.Property(e => e.RoleName).HasMaxLength(10);
         });
 
-        modelBuilder.Entity<StepTask>(entity =>
-        {
-            entity.HasKey(e => e.StepTaskId).HasName("PK__StepTask__45192A89CDCABAFE");
-
-            entity.ToTable("StepTask");
-
-            entity.HasOne(d => d.Step).WithMany(p => p.StepTasks)
-                .HasForeignKey(d => d.StepId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StepTask_RecipeStep");
-
-            entity.HasOne(d => d.Task).WithMany(p => p.StepTasks)
-                .HasForeignKey(d => d.TaskId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StepTask_RobotTask");
-        });
-
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4C449E6D91");
 
             entity.ToTable("User");
 
+            entity.Property(e => e.Image).HasMaxLength(500);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Password).HasMaxLength(256);
+            entity.Property(e => e.UserFullName).HasMaxLength(255);
             entity.Property(e => e.UserName).HasMaxLength(100);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)

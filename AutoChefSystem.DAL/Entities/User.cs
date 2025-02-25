@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AutoChefSystem.DAL.Entities;
+namespace AutoChefSystem.Repositories.Entities;
 
 public partial class User
 {
@@ -14,6 +14,10 @@ public partial class User
     public int? RoleId { get; set; }
 
     public bool IsActive { get; set; }
+
+    public string? UserFullName { get; set; }
+
+    public string? Image { get; set; }
 
     public virtual Role? Role { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using AutoChefSystem.DAL.Entities;
+﻿
+using AutoChefSystem.Repositories.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
