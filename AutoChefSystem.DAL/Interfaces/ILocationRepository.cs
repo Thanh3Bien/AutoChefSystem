@@ -1,12 +1,15 @@
-﻿using System;
+﻿using AutoChefSystem.DAL.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface ILocationRepository
     {
+        Task<Location?> GetByIdAsync(int id);
+        Task<List<Location>> GetAllLocationsAsync(int pageNumber, int pageSize);
+        Task AddLocationAsync(Location location);
+        Task UpdateLocationAsync(Location location);
+        Task DeleteLocationAsync(int id);
     }
 }
