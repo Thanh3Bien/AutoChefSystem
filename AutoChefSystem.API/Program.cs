@@ -24,6 +24,16 @@ namespace AutoChefSystem.API
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             );
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+            builder.Services.AddHttpContextAccessor();
             builder.Services.ConfigureDALServices();
             builder.Services.ConfigureBALServices();
 
@@ -100,6 +110,7 @@ namespace AutoChefSystem.API
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
+            app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
             
 
