@@ -1,7 +1,10 @@
+using AutoChefSystem.Services.Models.Location;
 ﻿using AutoChefSystem.Repositories.Entities;
 using AutoChefSystem.Services.Models.Order;
 using AutoChefSystem.Services.Models.Recipe;
 using AutoChefSystem.Services.Models.RecipeSteps;
+using AutoChefSystem.Services.Models.Robots;
+using AutoChefSystem.Services.Models.RobotType;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -34,6 +37,20 @@ namespace AutoChefSystem.Services.Mappings
 
             #region RecipeStep
             CreateMap<RecipeStep, GetByRecipeIdRequest>().ReverseMap();
+            #endregion
+
+            #region Robot
+            CreateMap<Robot, RobotResponse>().ReverseMap();
+            CreateMap<CreateRobotRequest, Robot>().ReverseMap();
+            CreateMap<UpdateRobotRequest, Robot>().ReverseMap();
+            #endregion
+
+            #region Robot Type
+            CreateMap<RobotType, RobotTypeResponse>().ReverseMap();
+            #endregion
+
+            #region Location
+            CreateMap<Location, LocationResponse>().ReverseMap();
             #endregion
         }
     }
