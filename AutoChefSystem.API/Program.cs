@@ -4,6 +4,8 @@ using System.Text;
 using AutoChefSystem.BAL;
 using AutoChefSystem.DAL;
 using AutoChefSystem.Repositories;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,14 +19,26 @@ namespace AutoChefSystem.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // Add services to the container.
             builder.Services.AddDbContext<AutoChefSystemContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             );
+            var firebaseAdminSdkPath = Environment.GetEnvironmentVariable("FIREBASE_ADMIN_SDK_PATH");
+
+            if (string.IsNullOrEmpty(firebaseAdminSdkPath))
+            {
+                throw new Exception("Firebase Admin SDK path is not set in environment variables.");
+            }
+
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(firebaseAdminSdkPath),
+            });
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins", builder =>
