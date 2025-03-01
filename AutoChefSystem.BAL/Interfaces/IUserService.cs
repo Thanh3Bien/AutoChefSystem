@@ -17,6 +17,7 @@ namespace AutoChefSystem.Repositories.Interfaces
         Task<UpdateUserRequest> UpdateAsync(UpdateUserRequest updateUserRequest);
         Task DeleteAsync(int id);
         Task<User?> GetByIdAsync(int id);
+        Task<User> FindOrCreateUserAsync(string email);
 
     }
 }

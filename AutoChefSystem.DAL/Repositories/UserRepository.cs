@@ -39,5 +39,16 @@ namespace AutoChefSystem.Repositories.Repositories
                 return new User();
             }
         }
+
+        public async Task<User?> GetUserByFirebaseIdAsync(string email)
+        {
+            var user = await _dbSet.FirstOrDefaultAsync(u => u.UserName == email);
+            if (user == null)
+            {
+                return null;
+            }
+            return user;
+        }
+
     }
 }

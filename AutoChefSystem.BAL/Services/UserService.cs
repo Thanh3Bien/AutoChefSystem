@@ -69,5 +69,26 @@ namespace AutoChefSystem.Repositories.Services
         }
 
         public async Task<User?> GetByIdAsync(int id) => await _unitOfWork.Users.GetByIdAsync(id);
+
+        public async Task<User> FindOrCreateUserAsync(string email)
+        {
+            var user = await _unitOfWork.Users.GetUserByFirebaseIdAsync(email);
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    UserName = email,
+                    Password = "1",
+                    RoleId = 4,
+                    IsActive = true,
+                };
+                _unitOfWork.Users.AddEntity(user);
+                await _unitOfWork.CompleteAsync();
+            }
+
+            return user;
+        }
+
     }
 }
