@@ -28,17 +28,17 @@ namespace AutoChefSystem.API
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             );
-            var firebaseAdminSdkPath = Environment.GetEnvironmentVariable("FIREBASE_ADMIN_SDK_PATH");
+            //var firebaseAdminSdkPath = Environment.GetEnvironmentVariable("FIREBASE_ADMIN_SDK_PATH");
 
-            if (string.IsNullOrEmpty(firebaseAdminSdkPath))
-            {
-                throw new Exception("Firebase Admin SDK path is not set in environment variables.");
-            }
+            //if (string.IsNullOrEmpty(firebaseAdminSdkPath))
+            //{
+            //    throw new Exception("Firebase Admin SDK path is not set in environment variables.");
+            //}
 
-            FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile(firebaseAdminSdkPath),
-            });
+            //FirebaseApp.Create(new AppOptions()
+            //{
+            //    Credential = GoogleCredential.FromFile(firebaseAdminSdkPath),
+            //});
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins", builder =>
