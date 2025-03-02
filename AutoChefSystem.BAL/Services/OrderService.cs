@@ -5,6 +5,7 @@ using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Order;
 using AutoChefSystem.Services.Models.Recipe;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +96,19 @@ namespace AutoChefSystem.Services.Services
             return true; 
         }
 
+        public async Task<bool> DeleteOrderAsync(int id)
+        {
+            var order = await _unitOfWork.Orders.GetByIdAsync(id);
+            if (order == null) return false;
 
+            order.Status = "deleted";
+
+            var updated = await _unitOfWork.Orders.DeleteAsync(id);
+            if (!updated) return false;
+
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
     }
 }
+

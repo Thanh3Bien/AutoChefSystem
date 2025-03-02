@@ -38,19 +38,36 @@ namespace AutoChefSystem.Repositories.Repositories
         {
             try
             {
-                if (order.Status == "assigned" || order.Status == "processing" || order.Status == "completed")
+                //pending, processing, completed, cancel
+                //
+                //if (order.Status == "assigned" || order.Status == "processing" || order.Status == "completed")
+                //{
+                //    _logger.LogInformation($"Order with ID {order.OrderId} has status {order.Status} — no changes made.");
+                //    return false;
+                //}
+
+                //if (order.Status == "pending")
+                //{
+                //    order.Status = "cancelled";
+                //}
+                //else if (order.Status != "failed")
+                //{
+                //    order.Status = "failed";
+                //}
+                //else
+                //{
+                //    _logger.LogInformation($"Order with ID {order.OrderId} already has status 'failed' — no changes made.");
+                //    return false;
+                //}
+
+                if ( order.Status == "processing" || order.Status == "completed" || order.Status == "cancelled")
                 {
                     _logger.LogInformation($"Order with ID {order.OrderId} has status {order.Status} — no changes made.");
                     return false;
                 }
-
                 if (order.Status == "pending")
                 {
                     order.Status = "cancelled";
-                }
-                else if (order.Status != "failed")
-                {
-                    order.Status = "failed";
                 }
                 else
                 {
@@ -81,20 +98,19 @@ namespace AutoChefSystem.Repositories.Repositories
             {
                 var query = _dbSet.AsQueryable();
 
+                
+                query = query.Where(r => r.Status != "deleted");
 
                 if (!string.IsNullOrWhiteSpace(status))
                 {
                     query = query.Where(r => r.Status.Contains(status));
                 }
 
-
                 query = sort
                     ? query.OrderByDescending(r => r.OrderedTime)
                     : query.OrderBy(r => r.OrderedTime);
 
-
                 var totalCount = await query.CountAsync();
-
 
                 var orders = await query
                     .Skip((page - 1) * pageSize)
@@ -109,6 +125,7 @@ namespace AutoChefSystem.Repositories.Repositories
                 throw;
             }
         }
+
 
 
         public async Task UpdateAsync(Order updateOrder)

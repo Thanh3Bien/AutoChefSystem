@@ -11,5 +11,7 @@ namespace AutoChefSystem.Repositories.Infrastructures
         Task<TEntity?> GetByIdAsync(int id);
         TEntity AddEntity(TEntity entity);
         void UpdateEntity(TEntity entity);
+
+        Task<bool> DeleteAsync(int id);
     }
 }

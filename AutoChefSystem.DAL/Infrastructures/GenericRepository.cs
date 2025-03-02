@@ -37,5 +37,30 @@ namespace AutoChefSystem.Repositories.Infrastructures
 
             return null;
         }
+
+        public virtual async Task<bool> DeleteAsync(int id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+            {
+                _logger.LogWarning($"Entity with id {id} not found.");
+                return false;
+            }
+
+            var statusProperty = entity.GetType().GetProperty("Status");
+            if (statusProperty != null && statusProperty.PropertyType == typeof(string))
+            {
+                statusProperty.SetValue(entity, "deleted");
+                _context.Update(entity);
+            }
+            else
+            {
+                _dbSet.Remove(entity); 
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
