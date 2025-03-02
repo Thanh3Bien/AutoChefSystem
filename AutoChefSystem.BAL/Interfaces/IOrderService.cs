@@ -19,5 +19,6 @@ namespace AutoChefSystem.Services.Interfaces
         Task<PaginatedOrderResponse> GetAllOrdersAsync(bool sort, string? status, int page, int pageSize);
         Task<bool> UpdateOrderStatusAsync(int id);
 
+        Task<bool> DeleteOrderAsync(int id);
     }
 }

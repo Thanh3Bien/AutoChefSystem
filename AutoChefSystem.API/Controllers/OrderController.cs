@@ -1,10 +1,12 @@
 ﻿
+using AutoChefSystem.Repositories.Entities;
 using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Order;
 using AutoChefSystem.Services.Models.Recipe;
 using AutoChefSystem.Services.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoChefSystem.API.Controllers
 {
@@ -14,15 +16,15 @@ namespace AutoChefSystem.API.Controllers
     {
         private readonly OrderService _orderService;
         private readonly ILogger<OrderController> _logger;
-        public OrderController(OrderService orderService, ILogger<OrderController> logger )
-        { 
+        public OrderController(OrderService orderService, ILogger<OrderController> logger)
+        {
             _logger = logger;
             _orderService = orderService;
         }
 
         #region Create new order 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest createOrder )
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest createOrder)
         {
 
             var result = await _orderService.CreateOrderAsync(createOrder);
@@ -53,7 +55,7 @@ namespace AutoChefSystem.API.Controllers
 
         #region Update Order
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdateOrderRequest updateOrder )
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateOrderRequest updateOrder)
         {
             try
             {
@@ -141,6 +143,18 @@ namespace AutoChefSystem.API.Controllers
 
         #endregion
 
+        #region
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var result = await _orderService.DeleteOrderAsync(id);
+            if (!result)
+            {
+                return NotFound(new { message = "Order not found." });
+            }
+            return Ok(new { message = "Order status set to deleted." });
+        }
+        #endregion
 
 
     }

@@ -19,6 +19,8 @@ namespace AutoChefSystem.Repositories.Interfaces
 
         Task<bool> UpdateOrderStatusAsync(Order order);
 
+        Task<bool> DeleteAsync(int id);
+
 
     }
 }

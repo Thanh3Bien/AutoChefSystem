@@ -98,20 +98,19 @@ namespace AutoChefSystem.Repositories.Repositories
             {
                 var query = _dbSet.AsQueryable();
 
+                
+                query = query.Where(r => r.Status != "deleted");
 
                 if (!string.IsNullOrWhiteSpace(status))
                 {
                     query = query.Where(r => r.Status.Contains(status));
                 }
 
-
                 query = sort
                     ? query.OrderByDescending(r => r.OrderedTime)
                     : query.OrderBy(r => r.OrderedTime);
 
-
                 var totalCount = await query.CountAsync();
-
 
                 var orders = await query
                     .Skip((page - 1) * pageSize)
@@ -126,6 +125,7 @@ namespace AutoChefSystem.Repositories.Repositories
                 throw;
             }
         }
+
 
 
         public async Task UpdateAsync(Order updateOrder)
