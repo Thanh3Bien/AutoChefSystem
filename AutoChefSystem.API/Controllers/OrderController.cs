@@ -134,7 +134,7 @@ namespace AutoChefSystem.API.Controllers
             var result = await _orderService.UpdateOrderStatusAsync(id);
             if (!result)
             {
-                return NotFound(new { message = $"Order with ID {id} not found or no changes were made." });
+                return NotFound(new { message = $"Order with ID {id} not found or can not changes status." });
             }
             return Ok(new { message = "Order status updated successfully." });
         }

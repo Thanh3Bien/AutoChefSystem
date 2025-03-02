@@ -38,19 +38,36 @@ namespace AutoChefSystem.Repositories.Repositories
         {
             try
             {
-                if (order.Status == "assigned" || order.Status == "processing" || order.Status == "completed")
+                //pending, processing, completed, cancel
+                //
+                //if (order.Status == "assigned" || order.Status == "processing" || order.Status == "completed")
+                //{
+                //    _logger.LogInformation($"Order with ID {order.OrderId} has status {order.Status} — no changes made.");
+                //    return false;
+                //}
+
+                //if (order.Status == "pending")
+                //{
+                //    order.Status = "cancelled";
+                //}
+                //else if (order.Status != "failed")
+                //{
+                //    order.Status = "failed";
+                //}
+                //else
+                //{
+                //    _logger.LogInformation($"Order with ID {order.OrderId} already has status 'failed' — no changes made.");
+                //    return false;
+                //}
+
+                if ( order.Status == "processing" || order.Status == "completed" || order.Status == "cancelled")
                 {
                     _logger.LogInformation($"Order with ID {order.OrderId} has status {order.Status} — no changes made.");
                     return false;
                 }
-
                 if (order.Status == "pending")
                 {
                     order.Status = "cancelled";
-                }
-                else if (order.Status != "failed")
-                {
-                    order.Status = "failed";
                 }
                 else
                 {
