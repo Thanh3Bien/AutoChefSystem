@@ -74,6 +74,8 @@ namespace AutoChefSystem.Services.Services
 
             return _mapper.Map<CreateRecipeRequest>(createRecipe);
         }
+
+        public async Task DeleteRecipeAsync(int id) => await  _unitOfWork.Recipes.DeleteAsync(id);
     }
 
 }
