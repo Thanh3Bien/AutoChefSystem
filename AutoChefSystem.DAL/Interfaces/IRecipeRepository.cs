@@ -16,6 +16,7 @@ namespace AutoChefSystem.Repositories.Interfaces
         Task<Recipe?> GetByIdAsync(int id);
 
         Task<Recipe?> CreateAsync(Recipe recipe);
+        Task<bool> DeleteAsync(int id);
 
     }
 }

@@ -121,5 +121,34 @@ namespace AutoChefSystem.API.Controllers
             return Ok(result);
         }
         #endregion
+
+        #region Delete Recipe
+        /// <summary>
+        /// Delete a recipe by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the recipe</param>
+        /// <returns>No content if the recipe was deleted</returns>
+        /// <response code="204">Recipe deleted successfully</response>
+        /// <response code="404">Recipe not found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRecipe(int id)
+        {
+            try
+            {
+                var result =  await _recipeService.GetByIdAsync(id); 
+                if (result == null)
+                {
+                    return NotFound(new { message = $"Recipe with ID {id} not found." });
+                }
+                await _recipeService.DeleteRecipeAsync(id);
+                return Ok(); 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
     }
 }

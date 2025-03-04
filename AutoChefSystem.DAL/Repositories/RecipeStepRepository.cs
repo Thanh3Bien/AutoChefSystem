@@ -19,6 +19,22 @@ namespace AutoChefSystem.Repositories.Repositories
         ILogger logger) : base(context, logger)
         {
         }
+
+        public async Task<RecipeStep?> CreateAsync(RecipeStep recipeStep)
+        {
+            try
+            {
+                await _dbSet.AddAsync(recipeStep);
+                await _context.SaveChangesAsync();
+                return recipeStep;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating a recipeStep.");
+                throw;
+            }
+        }
+
         public async Task<List<RecipeStep>> GetByRecipeIdAsync(int recipeId)
         {
             var listRecipeSteps = new List<RecipeStep>();
@@ -28,6 +44,28 @@ namespace AutoChefSystem.Repositories.Repositories
             return listRecipeSteps;
         }
 
+        public async Task<RecipeStep?> UpdateAsync(RecipeStep recipeStep)
+        {
+            try
+            {
+                var checkExistRecipeStep = await _dbSet.FindAsync(recipeStep.RecipeId);
+                if (checkExistRecipeStep != null)
+                {
+                    checkExistRecipeStep.RecipeId = recipeStep.RecipeId;
+                    checkExistRecipeStep.StepDescription = recipeStep.StepDescription;
+                    checkExistRecipeStep.StepNumber = recipeStep.StepNumber;
+                    _dbSet.Update(recipeStep);
 
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+            return recipeStep;
+
+        }
     }
 }
