@@ -52,7 +52,8 @@ namespace AutoChefSystem.Repositories.Repositories
 
         public async Task<(IEnumerable<User>, int)> GetAllAsync(int pageNumber, int pageSize)
         {
-            var query = _dbSet.Where(u => u.IsActive);
+            var query = _dbSet.Where(u => u.IsActive)
+                              .Include(u => u.Role);
 
             int totalRecords = await query.CountAsync();
 
