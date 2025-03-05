@@ -20,6 +20,36 @@ namespace AutoChefSystem.API.Controllers
             _logger = logger;
         }
 
+        #region Get All Role
+        /// <summary>
+        /// Get All Role
+        /// </summary>
+        /// <returns>A role was created</returns>
+        /// <response code="200">Return list roles</response>
+        /// <response code="400">Failed validation</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="500">Internal Server</response>
+        [HttpGet]
+        public async Task<IActionResult> GetAllRolesAsync([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            try
+            {
+                var result = await _roleService.GetAllRolesAsync(pageNumber, pageSize);
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { ErrorMessage = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving roles");
+                return StatusCode(500, new { ErrorMessage = "Internal Server Error" });
+            }
+        }
+        #endregion
         #region Get Role by Id
         /// <summary>
         /// Get a role based on Id in the system
@@ -83,35 +113,6 @@ namespace AutoChefSystem.API.Controllers
             return BadRequest();
         }
         #endregion
-        #region Get All Role
-        /// <summary>
-        /// Get All Role
-        /// </summary>
-        /// <returns>A role was created</returns>
-        /// <response code="200">Return list roles</response>
-        /// <response code="400">Failed validation</response>
-        /// <response code="401">Unauthorized</response>
-        /// <response code="403">Forbidden</response>
-        /// <response code="404">Not Found</response>
-        /// <response code="500">Internal Server</response>
-        [HttpGet]
-        public async Task<IActionResult> GetAllRolesAsync([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
-        {
-            try
-            {
-                var result = await _roleService.GetAllRolesAsync(pageNumber, pageSize);
-                return Ok(result);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { ErrorMessage = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving roles");
-                return StatusCode(500, new { ErrorMessage = "Internal Server Error" });
-            }
-        }
-        #endregion
+        
     }
 }

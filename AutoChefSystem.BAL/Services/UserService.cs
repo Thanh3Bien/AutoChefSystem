@@ -36,7 +36,6 @@ namespace AutoChefSystem.Repositories.Services
             return createUserRequest;
         }
 
-
         public async Task<UpdateUserRequest> UpdateAsync(UpdateUserRequest updateUserRequest)
         {
             var user = await _unitOfWork.Users.GetByIdAsync(updateUserRequest.UserId);
@@ -55,7 +54,6 @@ namespace AutoChefSystem.Repositories.Services
                 throw new Exception("User not found");
             }
         }
-
         public async Task DeleteAsync(int id)
         {
             var user = await _unitOfWork.Users.GetByIdAsync(id);
@@ -92,6 +90,7 @@ namespace AutoChefSystem.Repositories.Services
 
             return user;
         }
+
         public async Task<(IEnumerable<UserResponse>, int)> GetAllAsync(int pageNumber, int pageSize)
         {
             var (users, totalRecords) = await _unitOfWork.Users.GetAllAsync(pageNumber, pageSize);
@@ -100,6 +99,10 @@ namespace AutoChefSystem.Repositories.Services
             {
                 UserId = user.UserId,
                 UserName = user.UserName,
+                Password = user.Password,
+                RoleId = user.RoleId,
+                IsActive = user.IsActive,
+                UserFullName = user.UserFullName,
                 Image = user.Image,
                 RoleName = user.Role?.RoleName ?? "Unknown"
             });

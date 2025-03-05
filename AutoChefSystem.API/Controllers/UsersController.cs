@@ -22,7 +22,7 @@ namespace AutoChefSystem.API.Controllers
         /// Get all user in the system with optional filtering and pagination.
         /// </summary>
         /// <param name="pageNumber">Current page number (default is 1)</param>
-        /// <param name="pageSize">Number of robot per page (default is 10)</param>
+        /// <param name="pageSize">Number of user per page (default is 10)</param>
         /// <returns>A paginated list of user</returns>
         /// <response code="200">Returns paginated user</response>
         /// <response code="400">Invalid request</response>

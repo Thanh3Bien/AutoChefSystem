@@ -4,6 +4,7 @@ using AutoChefSystem.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoChefSystem.Repositories.Migrations
 {
     [DbContext(typeof(AutoChefSystemContext))]
-    partial class AutoChefSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20250305033625_UpdateRecipeProperties")]
+    partial class UpdateRecipeProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
