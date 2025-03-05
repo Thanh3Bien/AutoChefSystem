@@ -7,6 +7,7 @@ using AutoChefSystem.BAL.Models.Roles;
 using AutoChefSystem.Repositories.Entities;
 using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Repositories.Interfaces;
+using AutoChefSystem.Services.Models.Roles;
 
 namespace AutoChefSystem.BAL.Services
 {
@@ -29,6 +30,18 @@ namespace AutoChefSystem.BAL.Services
             _unitOfWork.Roles.AddEntity(role);
             await _unitOfWork.CompleteAsync();
             return createRoleRequest;
+        }
+        public async Task<PagedResult<Role>> GetAllRolesAsync(int pageNumber, int pageSize)
+        {
+            if (pageNumber <= 0 || pageSize <= 0)
+            {
+                throw new ArgumentException("PageNumber and PageSize must be greater than zero.");
+            }
+
+            var roles = await _unitOfWork.Roles.GetAllRolesAsync(pageNumber, pageSize);
+            var totalRoles = await _unitOfWork.Roles.CountAsync();
+
+            return new PagedResult<Role>(roles, totalRoles);
         }
     }
 }

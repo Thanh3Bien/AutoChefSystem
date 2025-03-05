@@ -39,11 +39,16 @@ namespace AutoChefSystem.Repositories.Repositories
         {
             return await _context.Roles.ToListAsync();
         }
-
-
-
+        public async Task<IEnumerable<Role>> GetAllRolesAsync(int pageNumber, int pageSize)
+        {
+            return await _context.Roles
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+        public async Task<int> CountAsync()
+        {
+            return await _context.Roles.CountAsync();
+        }
     }
-
-    
-
 }

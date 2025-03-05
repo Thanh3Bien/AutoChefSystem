@@ -50,5 +50,19 @@ namespace AutoChefSystem.Repositories.Repositories
             return user;
         }
 
+        public async Task<(IEnumerable<User>, int)> GetAllAsync(int pageNumber, int pageSize)
+        {
+            var query = _dbSet.Where(u => u.IsActive);
+
+            int totalRecords = await query.CountAsync();
+
+            var users = await query
+                .OrderBy(u => u.UserName)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (users, totalRecords);
+        }
     }
 }

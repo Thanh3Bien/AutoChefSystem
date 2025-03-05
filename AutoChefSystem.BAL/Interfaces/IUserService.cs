@@ -18,6 +18,7 @@ namespace AutoChefSystem.Repositories.Interfaces
         Task DeleteAsync(int id);
         Task<User?> GetByIdAsync(int id);
         Task<User> FindOrCreateUserAsync(string email);
+        Task<(IEnumerable<User>, int)> GetAllAsync(int pageNumber, int pageSize);
 
     }
 }

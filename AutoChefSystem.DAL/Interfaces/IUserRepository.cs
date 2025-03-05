@@ -12,5 +12,6 @@ namespace AutoChefSystem.Repositories.Interfaces
     {
         Task<User?> LoginAsync(string userName, string password);
         Task<User?> GetUserByFirebaseIdAsync(string email);
+        Task<(IEnumerable<User>, int)> GetAllAsync(int pageNumber, int pageSize);
     }
 }
