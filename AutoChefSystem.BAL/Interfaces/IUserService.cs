@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoChefSystem.BAL.Models.Users;
 using AutoChefSystem.Repositories.Entities;
+using AutoChefSystem.Services.Models.Users;
 
 
 namespace AutoChefSystem.Repositories.Interfaces
@@ -18,7 +19,7 @@ namespace AutoChefSystem.Repositories.Interfaces
         Task DeleteAsync(int id);
         Task<User?> GetByIdAsync(int id);
         Task<User> FindOrCreateUserAsync(string email);
-        Task<(IEnumerable<User>, int)> GetAllAsync(int pageNumber, int pageSize);
+        Task<(IEnumerable<UserResponse>, int)> GetAllAsync(int pageNumber, int pageSize);
 
     }
 }

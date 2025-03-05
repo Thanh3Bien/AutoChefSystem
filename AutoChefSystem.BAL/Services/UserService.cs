@@ -7,6 +7,7 @@ using AutoChefSystem.BAL.Models.Users;
 using AutoChefSystem.Repositories.Entities;
 using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Repositories.Interfaces;
+using AutoChefSystem.Services.Models.Users;
 
 namespace AutoChefSystem.Repositories.Services
 {
@@ -91,10 +92,19 @@ namespace AutoChefSystem.Repositories.Services
 
             return user;
         }
-        public async Task<(IEnumerable<User>, int)> GetAllAsync(int pageNumber, int pageSize)
+        public async Task<(IEnumerable<UserResponse>, int)> GetAllAsync(int pageNumber, int pageSize)
         {
-            return await _unitOfWork.Users.GetAllAsync(pageNumber, pageSize);
-        }
+            var (users, totalRecords) = await _unitOfWork.Users.GetAllAsync(pageNumber, pageSize);
 
+            var userDtos = users.Select(user => new UserResponse
+            {
+                UserId = user.UserId,
+                UserName = user.UserName,
+                Image = user.Image,
+                RoleName = user.Role?.RoleName ?? "Unknown"
+            });
+
+            return (userDtos, totalRecords);
+        }
     }
 }

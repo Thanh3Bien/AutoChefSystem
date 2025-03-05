@@ -88,7 +88,7 @@ namespace AutoChefSystem.API.Controllers
         /// Get All Role
         /// </summary>
         /// <returns>A role was created</returns>
-        /// <response code="200">A role was created</response>
+        /// <response code="200">Return list roles</response>
         /// <response code="400">Failed validation</response>
         /// <response code="401">Unauthorized</response>
         /// <response code="403">Forbidden</response>
