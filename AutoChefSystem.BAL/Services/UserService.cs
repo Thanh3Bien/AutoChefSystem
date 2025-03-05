@@ -28,6 +28,7 @@ namespace AutoChefSystem.Repositories.Services
                 Password = createUserRequest.Password,
                 RoleId = createUserRequest.RoleId,
                 IsActive = true,
+                Image = createUserRequest.UserImage,
             };
             _unitOfWork.Users.AddEntity(user);
             await _unitOfWork.CompleteAsync();
@@ -43,6 +44,7 @@ namespace AutoChefSystem.Repositories.Services
                 user.UserName = updateUserRequest.UserName;
                 user.Password = updateUserRequest.Password;
                 user.RoleId = updateUserRequest.RoleId;
+                user.Image = updateUserRequest.UserImage;
                 _unitOfWork.Users.UpdateEntity(user);
                 await _unitOfWork.CompleteAsync();
                 return updateUserRequest;
@@ -88,6 +90,10 @@ namespace AutoChefSystem.Repositories.Services
             }
 
             return user;
+        }
+        public async Task<(IEnumerable<User>, int)> GetAllAsync(int pageNumber, int pageSize)
+        {
+            return await _unitOfWork.Users.GetAllAsync(pageNumber, pageSize);
         }
 
     }

@@ -92,6 +92,24 @@ namespace AutoChefSystem.API.Controllers
             }
         }
 
-        
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllAsync([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            try
+            {
+                var (users, totalRecords) = await _userService.GetAllAsync(pageNumber, pageSize);
+                return Ok(new
+                {
+                    TotalRecords = totalRecords,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    Users = users
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { ErrorMessage = ex.Message });
+            }
+        }
     }
 }

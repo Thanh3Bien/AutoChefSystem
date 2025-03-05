@@ -10,5 +10,7 @@ namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IRoleRepository : IGenericRepository<Role>
     {
+        Task<IEnumerable<Role>> GetAllRolesAsync(int pageNumber, int pageSize);
+        Task<int> CountAsync();
     }
 }
