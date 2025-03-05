@@ -37,9 +37,9 @@ public partial class AutoChefSystemContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-     => optionsBuilder.UseSqlServer("Server=tcp:autochefdbserver.database.windows.net,1433;Initial Catalog=AutoChefSystem;Persist Security Info=False;User ID=autochefdbserver;Password=@Testpassword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+    => optionsBuilder.UseSqlServer("Server=tcp:autochefdbserver.database.windows.net,1433;Initial Catalog=AutoChefSystem;Persist Security Info=False;User ID=autochefdbserver;Password=@Testpassword;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
     //=> optionsBuilder.UseSqlServer("Server=LAPTOP-BHJERH1P\\SQLEXPRESS;Database=AutoChefSystem;Uid=sa;Pwd=123456;Trusted_Connection=True;TrustServerCertificate=True;");
-    //=> optionsBuilder.UseSqlServer("Server=LAPTOP-39B7IASC\\SQLEXPRESS;Database=AutoChefSystem;Uid=sa;Pwd=1;Trusted_Connection=True;TrustServerCertificate=True;");
+    //=> optionsBuilder.UseSqlServer("Server=LAPTOP-39B7IASC\\SQLEXPRESS;Database=AutoChefSystem10;Uid=sa;Pwd=1;Trusted_Connection=True;TrustServerCertificate=True;");
     //=> optionsBuilder.UseSqlServer("Server=ROG-ZEPHYRUS-G1\\VIETDUC;Database=AutoChefSystem;Uid=sa;Pwd=123456;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -86,6 +86,7 @@ public partial class AutoChefSystemContext : DbContext
 
             entity.ToTable("Recipe");
 
+            entity.Property(e => e.ImageUrl).HasMaxLength(255);
             entity.Property(e => e.Ingredients).HasMaxLength(255);
             entity.Property(e => e.RecipeName).HasMaxLength(100);
         });

@@ -11,6 +11,10 @@ public partial class Recipe
 
     public string Ingredients { get; set; } = null!;
 
+    public string? ImageUrl { get; set; }
+
+    public string? Description { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<RecipeStep> RecipeSteps { get; set; } = new List<RecipeStep>();

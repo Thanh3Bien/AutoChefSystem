@@ -12,5 +12,9 @@ namespace AutoChefSystem.Services.Models.Recipe
         public string RecipeName { get; set; } = null!;
 
         public string Ingredients { get; set; } = null!;
+
+        public string? ImageUrl { get; set; }
+
+        public string? Description { get; set; }
     }
 }
