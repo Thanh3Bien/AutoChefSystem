@@ -28,8 +28,9 @@ namespace AutoChefSystem.BAL
             services.AddScoped<IRobotService, RobotService>();
             services.AddScoped<IRobotTypeService, RobotTypeService>();
             services.AddScoped<ILocationService, LocationService>();
-            
 
+            services.AddSingleton<RobotArmService>(provider =>
+        new RobotArmService("172.20.10.2", 5000));
             //Mapper
             services.AddAutoMapper(typeof(MappingProfiles));
             return services;
