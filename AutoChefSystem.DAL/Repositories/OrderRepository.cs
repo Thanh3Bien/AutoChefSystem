@@ -38,58 +38,15 @@ namespace AutoChefSystem.Repositories.Repositories
         {
             try
             {
-                //pending, processing, completed, cancel
-                //
-                //if (order.Status == "assigned" || order.Status == "processing" || order.Status == "completed")
-                //{
-                //    _logger.LogInformation($"Order with ID {order.OrderId} has status {order.Status} — no changes made.");
-                //    return false;
-                //}
-
-                //if (order.Status == "pending")
-                //{
-                //    order.Status = "cancelled";
-                //}
-                //else if (order.Status != "failed")
-                //{
-                //    order.Status = "failed";
-                //}
-                //else
-                //{
-                //    _logger.LogInformation($"Order with ID {order.OrderId} already has status 'failed' — no changes made.");
-                //    return false;
-                //}
-
-                if ( order.Status == "processing" || order.Status == "completed" || order.Status == "cancelled")
-                {
-                    _logger.LogInformation($"Order with ID {order.OrderId} has status {order.Status} — no changes made.");
-                    return false;
-                }
-                if (order.Status == "pending")
-                {
-                    order.Status = "cancelled";
-                }
-                else
-                {
-                    _logger.LogInformation($"Order with ID {order.OrderId} already has status 'failed' — no changes made.");
-                    return false;
-                }
-
                 _dbSet.Update(order);
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation($"Order with ID {order.OrderId} updated to status: {order.Status}.");
                 return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error occurred while updating status for order with ID {order?.OrderId}.");
-                throw;
+                return false;
             }
         }
-
-
-
 
 
         public async Task<(List<Order>, int)> GetAllOdersAsync(bool sort, string? status, int page, int pageSize)
@@ -142,4 +99,5 @@ namespace AutoChefSystem.Repositories.Repositories
         }
     }
 }
+
 
