@@ -4,6 +4,7 @@ using System.Text;
 using AutoChefSystem.BAL;
 using AutoChefSystem.DAL;
 using AutoChefSystem.Repositories;
+using AutoChefSystem.Services.Services;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,8 +24,8 @@ namespace AutoChefSystem.API
             // Add services to the container.
             builder.Services.AddDbContext<AutoChefSystemContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             );
@@ -51,6 +52,9 @@ namespace AutoChefSystem.API
             builder.Services.AddHttpContextAccessor();
             builder.Services.ConfigureDALServices();
             builder.Services.ConfigureBALServices();
+
+        //    builder.Services.AddSingleton<RobotArmService>(provider =>
+        //new RobotArmService("127.0.0.1", 5000));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
