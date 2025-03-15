@@ -6,6 +6,7 @@ using AutoChefSystem.Services.Models.Recipe;
 using AutoChefSystem.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace AutoChefSystem.API.Controllers
 {
@@ -139,20 +140,21 @@ namespace AutoChefSystem.API.Controllers
         /// <summary>
         /// Updates the status of an order by its ID.
         /// </summary>
-        /// <param name="id">The ID of the order to be updated.</param>
+        /// <param name="orderId">The unique identifier of the order to update.</param>
+        /// <param name="isCancel">Set to true to cancel the order, false for other status updates.</param>
         /// <returns>
-        /// - Returns 200 OK if the order status is successfully updated.<br/>
-        /// - Returns 404 Not Found if the order is not found or no changes were made.
+        /// - 200 OK: If the order status is successfully updated.<br/>
+        /// - 400 Bad Request: If the update fails.
         /// </returns>
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateOrderStatusAsync(int id)
+        [HttpPost("update-status")]
+        public async Task<IActionResult> UpdateStatus(int orderId , bool isCancel = false)
         {
-            var result = await _orderService.UpdateOrderStatusAsync(id);
-            if (!result)
+            var result = await _orderService.UpdateOrderStatus(orderId, isCancel);
+            if (result)
             {
-                return NotFound(new { message = $"Order with ID {id} not found or can not changes status." });
+                return Ok("Status updated successfully");
             }
-            return Ok(new { message = "Order status updated successfully." });
+            return BadRequest("Failed to update status");
         }
         #endregion
 

@@ -77,24 +77,45 @@ namespace AutoChefSystem.Services.Services
                 PageSize = pageSize
             };
         }
+  
 
-        public async Task<bool> UpdateOrderStatusAsync(int id)
+        public async Task<bool> UpdateOrderStatus(int orderId,  bool isCancel)
         {
-            var order = await _unitOfWork.Orders.GetByIdAsync(id);
+            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
             if (order == null)
             {
                 return false; 
             }
 
-            var updated = await _unitOfWork.Orders.UpdateOrderStatusAsync(order);
-            if (!updated)
+            if (isCancel && order.Status == "Pending")
             {
-                return false; 
+                order.Status = "Canceled";
             }
+            else { 
 
-            await _unitOfWork.CompleteAsync();
-            return true; 
+                switch (order.Status)
+                {
+                    case "Pending":
+                        order.Status = "Waiting";
+                        break;
+                    case "Waiting":
+                        order.Status = "Processing";
+                        break;
+                    case "Processing":
+                        order.Status = "Complete";
+                        break;
+                    case "Complete":
+                        return false;
+                    default:
+                        return false;
+
+                }
+            }
+            await _unitOfWork.Orders.UpdateAsync(order);
+                await _unitOfWork.CompleteAsync();
+            return true;
         }
+
 
         public async Task<bool> DeleteOrderAsync(int id)
         {
