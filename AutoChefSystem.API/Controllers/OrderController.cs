@@ -6,6 +6,7 @@ using AutoChefSystem.Services.Models.Recipe;
 using AutoChefSystem.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace AutoChefSystem.API.Controllers
@@ -16,10 +17,12 @@ namespace AutoChefSystem.API.Controllers
     {
         private readonly OrderService _orderService;
         private readonly ILogger<OrderController> _logger;
-        public OrderController(OrderService orderService, ILogger<OrderController> logger)
+        private readonly IRobotArmService _robotArmService;
+        public OrderController(OrderService orderService, ILogger<OrderController> logger, IRobotArmService robotArmService)
         {
             _logger = logger;
             _orderService = orderService;
+            _robotArmService = robotArmService;
         }
 
         #region Create new order 
@@ -178,5 +181,60 @@ namespace AutoChefSystem.API.Controllers
             return Ok(new { message = "Order status set to deleted." });
         }
         #endregion
+
+
+        #region Create new order and send command to Robot Arm
+        /// <summary>
+        /// Creates a new order and sends the order command to the robot arm.
+        /// </summary>
+        /// <param name="createOrder">Details of the order to be created.</param>
+        /// <returns>
+        /// - Returns 200 OK with the created order details and robot arm response.<br/>
+        /// - Returns 404 Not Found if there is an error during creation or communication with the robot arm.
+        /// </returns>
+        [HttpPost("create-and-send")]
+        public async Task<IActionResult> CreateOrderAndSendCommand([FromBody] CreateOrderRequest createOrder)
+        {
+            // Tạo đơn hàng
+            var orderResult = await _orderService.CreateOrderAsync(createOrder);
+            if (orderResult == null)
+            {
+                return NotFound(new { message = $"Error when creating new order." });
+            }
+
+            // Gửi lệnh đến cánh tay robot
+            string robotResponse;
+            try
+            {
+                var orderStringToArm = JsonConvert.SerializeObject(orderResult);
+                robotResponse = await _robotArmService.SendCommandAsync(orderStringToArm); // Chuyển đổi đơn hàng thành chuỗi
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error while sending command to robot arm.", details = ex.Message });
+            }
+
+            return Ok(new { Order = orderResult, RobotArmResponse = robotResponse });
+        }
+        #endregion
+
+        [HttpPut("update-order-status")]
+        public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusRequest request)
+        {
+            if (request == null || request.OrderId <= 0 || string.IsNullOrWhiteSpace(request.Status))
+            {
+                return BadRequest("Invalid order status update request.");
+            }
+
+            bool result = await _orderService.UpdateOrderStatusAsync(request.OrderId, request.Status);
+            if (result)
+            {
+                return Ok("Order status updated successfully.");
+            }
+            else
+            {
+                return NotFound("Order not found.");
+            }
+        }
     }
 }

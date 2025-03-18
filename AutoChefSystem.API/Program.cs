@@ -49,6 +49,7 @@ namespace AutoChefSystem.API
                            .AllowAnyHeader();
                 });
             });
+            builder.Services.AddHttpClient();
             builder.Services.AddHttpContextAccessor();
             builder.Services.ConfigureDALServices();
             builder.Services.ConfigureBALServices();
