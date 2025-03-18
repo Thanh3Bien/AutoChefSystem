@@ -130,6 +130,17 @@ namespace AutoChefSystem.Services.Services
             await _unitOfWork.CompleteAsync();
             return true;
         }
+
+
+        public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
+        {
+            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+            if (order == null) return false;
+            order.Status = status;
+            await _unitOfWork.Orders.UpdateAsync(order);
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
     }
 }
 

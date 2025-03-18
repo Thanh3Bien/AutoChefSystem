@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using AutoChefSystem.Services.Interfaces;
 
 namespace AutoChefSystem.Services.Services
 {
-    public class RobotArmService
+    public class RobotArmService : IRobotArmService
     {
         private TcpClient _client;
         private NetworkStream _stream;
@@ -30,10 +31,10 @@ namespace AutoChefSystem.Services.Services
             return response;
         }
 
-        public void Close()
-        {
-            _stream.Close();
-            _client.Close();
-        }
+        //public void Close()
+        //{
+        //    _stream.Close();
+        //    _client.Close();
+        //}
     }
 }
