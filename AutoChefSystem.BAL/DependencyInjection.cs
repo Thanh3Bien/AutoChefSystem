@@ -29,6 +29,8 @@ namespace AutoChefSystem.BAL
             services.AddScoped<IRobotTypeService, RobotTypeService>();
             services.AddScoped<ILocationService, LocationService>();
 
+            services.AddScoped<IQueueService, QueueService>();
+
             //    services.AddSingleton<RobotArmService>(provider =>
             //new RobotArmService("192.168.1.19", 5000));
 
