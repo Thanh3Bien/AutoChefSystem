@@ -18,11 +18,13 @@ namespace AutoChefSystem.API.Controllers
         private readonly OrderService _orderService;
         private readonly ILogger<OrderController> _logger;
         private readonly IRobotArmService _robotArmService;
-        public OrderController(OrderService orderService, ILogger<OrderController> logger, IRobotArmService robotArmService)
+        private readonly IQueueService _queueService;
+        public OrderController(OrderService orderService, ILogger<OrderController> logger, IRobotArmService robotArmService, IQueueService queueService)
         {
             _logger = logger;
             _orderService = orderService;
             _robotArmService = robotArmService;
+            _queueService = queueService;
         }
 
         #region Create new order 
@@ -236,5 +238,70 @@ namespace AutoChefSystem.API.Controllers
                 return NotFound("Order not found.");
             }
         }
+
+
+        #region Create new order and send to queue 
+        /// <summary>
+        /// Creates a new order and sends the order to the Azure Storage Queue.
+        /// </summary>
+        /// <param name="createOrder">Details of the order to be created.</param>
+        /// <returns>
+        /// - Returns 200 OK with the created order details.<br/>
+        /// - Returns 404 Not Found if there is an error during creation.
+        /// </returns>
+        [HttpPost("create-and-send-to-queue")]
+        public async Task<IActionResult> CreateOrderAndSendToQueue([FromBody] CreateOrderRequest createOrder)
+        {
+            // Tạo đơn hàng
+            var orderResult = await _orderService.CreateOrderAsync(createOrder);
+            if (orderResult == null)
+            {
+                return NotFound(new { message = $"Error when creating new order." });
+            }
+
+            // Gửi lệnh đến hàng đợi
+            string orderString = JsonConvert.SerializeObject(orderResult);
+            try
+            {
+                await _queueService.SendMessageAsync(orderString);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error while sending order to queue.", details = ex.Message });
+            }
+
+            return Ok(new { Order = orderResult, Message = "Order created and sent to queue." });
+        }
+        #endregion
+
+
+        #region Receive message from queue 
+        /// <summary>
+        /// Receives a message from the Azure Storage Queue.
+        /// </summary>
+        /// <returns>
+        /// - Returns 200 OK with the message details.<br/>
+        /// - Returns 404 Not Found if no messages are available.
+        /// </returns>
+        [HttpGet("receive-from-queue")]
+        public async Task<IActionResult> ReceiveMessageFromQueue()
+        {
+            string message;
+            try
+            {
+                message = await _queueService.ReceiveMessageAsync();
+                if (string.IsNullOrEmpty(message))
+                {
+                    return NotFound(new { message = "No messages available in the queue." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error while receiving message from queue.", details = ex.Message });
+            }
+
+            return Ok(new { Message = message });
+        }
+        #endregion
     }
 }
