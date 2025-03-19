@@ -7,6 +7,11 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:DeployConnection",
       "dynamicId": null
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "ConnectionStrings:AzureStorageQueue",
+      "dynamicId": null
     }
   }
 }

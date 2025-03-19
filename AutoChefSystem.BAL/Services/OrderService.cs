@@ -141,6 +141,11 @@ namespace AutoChefSystem.Services.Services
             await _unitOfWork.CompleteAsync();
             return true;
         }
+
+        public async Task<int?> GetLastOrderIdAsync()
+        {
+            return await _unitOfWork.Orders.GetLastOrderIdAsync();
+        }
     }
 }
 

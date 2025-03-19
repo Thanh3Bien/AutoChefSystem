@@ -21,6 +21,8 @@ namespace AutoChefSystem.Repositories.Interfaces
 
         Task<bool> DeleteAsync(int id);
 
+        Task<int?> GetLastOrderIdAsync();
+
 
     }
 }
