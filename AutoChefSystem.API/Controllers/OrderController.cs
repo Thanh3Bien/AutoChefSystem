@@ -259,8 +259,24 @@ namespace AutoChefSystem.API.Controllers
                 return NotFound(new { message = $"Error when creating new order." });
             }
 
+            var lastOrderId = await _orderService.GetLastOrderIdAsync();
+            if (!lastOrderId.HasValue)
+            {
+                return StatusCode(500, new { message = "Failed to retrieve the last order ID." });
+            }
+
+            var orderWithNewId = new
+            {
+                OrderId = lastOrderId.Value,
+                RecipeId = orderResult.RecipeId,
+                RobotId = orderResult.RobotId,
+                LocationId = orderResult.LocationId,
+                Status = orderResult.Status,
+                OrderedTime = orderResult.OrderedTime,
+            };
+
             // Gửi lệnh đến hàng đợi
-            string orderString = JsonConvert.SerializeObject(orderResult);
+            string orderString = JsonConvert.SerializeObject(orderWithNewId);
             try
             {
                 await _queueService.SendMessageAsync(orderString);

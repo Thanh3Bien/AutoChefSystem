@@ -97,6 +97,23 @@ namespace AutoChefSystem.Repositories.Repositories
                 throw;
             }
         }
+
+        public async Task<int?> GetLastOrderIdAsync()
+        {
+            try
+            {
+                var lastOrder = await _dbSet
+                    .OrderByDescending(o => o.OrderedTime) 
+                    .FirstOrDefaultAsync(); 
+
+                return lastOrder?.OrderId; 
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching the last order ID.");
+                throw;
+            }
+        }
     }
 }
 

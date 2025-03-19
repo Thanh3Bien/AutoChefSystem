@@ -20,5 +20,7 @@ namespace AutoChefSystem.Services.Interfaces
         Task<bool> UpdateOrderStatus(int orderId, bool isCancel);
 
         Task<bool> DeleteOrderAsync(int id);
+
+        Task<int?> GetLastOrderIdAsync();
     }
 }
