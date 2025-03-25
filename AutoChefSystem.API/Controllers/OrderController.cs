@@ -4,6 +4,7 @@ using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.Order;
 using AutoChefSystem.Services.Models.Recipe;
 using AutoChefSystem.Services.Services;
+using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -185,40 +186,40 @@ namespace AutoChefSystem.API.Controllers
         #endregion
 
 
-        #region Create new order and send command to Robot Arm
-        /// <summary>
-        /// Creates a new order and sends the order command to the robot arm.
-        /// </summary>
-        /// <param name="createOrder">Details of the order to be created.</param>
-        /// <returns>
-        /// - Returns 200 OK with the created order details and robot arm response.<br/>
-        /// - Returns 404 Not Found if there is an error during creation or communication with the robot arm.
-        /// </returns>
-        [HttpPost("create-and-send")]
-        public async Task<IActionResult> CreateOrderAndSendCommand([FromBody] CreateOrderRequest createOrder)
-        {
-            // Tạo đơn hàng
-            var orderResult = await _orderService.CreateOrderAsync(createOrder);
-            if (orderResult == null)
-            {
-                return NotFound(new { message = $"Error when creating new order." });
-            }
+        //#region Create new order and send command to Robot Arm
+        ///// <summary>
+        ///// Creates a new order and sends the order command to the robot arm.
+        ///// </summary>
+        ///// <param name="createOrder">Details of the order to be created.</param>
+        ///// <returns>
+        ///// - Returns 200 OK with the created order details and robot arm response.<br/>
+        ///// - Returns 404 Not Found if there is an error during creation or communication with the robot arm.
+        ///// </returns>
+        //[HttpPost("create-and-send")]
+        //public async Task<IActionResult> CreateOrderAndSendCommand([FromBody] CreateOrderRequest createOrder)
+        //{
+        //    // Tạo đơn hàng
+        //    var orderResult = await _orderService.CreateOrderAsync(createOrder);
+        //    if (orderResult == null)
+        //    {
+        //        return NotFound(new { message = $"Error when creating new order." });
+        //    }
 
-            // Gửi lệnh đến cánh tay robot
-            string robotResponse;
-            try
-            {
-                var orderStringToArm = JsonConvert.SerializeObject(orderResult);
-                robotResponse = await _robotArmService.SendCommandAsync(orderStringToArm); // Chuyển đổi đơn hàng thành chuỗi
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Error while sending command to robot arm.", details = ex.Message });
-            }
+        //    // Gửi lệnh đến cánh tay robot
+        //    string robotResponse;
+        //    try
+        //    {
+        //        var orderStringToArm = JsonConvert.SerializeObject(orderResult);
+        //        robotResponse = await _robotArmService.SendCommandAsync(orderStringToArm); // Chuyển đổi đơn hàng thành chuỗi
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { message = "Error while sending command to robot arm.", details = ex.Message });
+        //    }
 
-            return Ok(new { Order = orderResult, RobotArmResponse = robotResponse });
-        }
-        #endregion
+        //    return Ok(new { Order = orderResult, RobotArmResponse = robotResponse });
+        //}
+        //#endregion
 
         [HttpPut("update-order-status")]
         public async Task<IActionResult> UpdateOrderStatus([FromBody] UpdateOrderStatusRequest request)
@@ -317,6 +318,60 @@ namespace AutoChefSystem.API.Controllers
             }
 
             return Ok(new { Message = message });
+        }
+        #endregion
+
+
+        //#region Cancel Order from Queue
+        ///// <summary>
+        ///// Cancels an order by updating its status to "Cancelled" and removes the corresponding message from the queue.
+        ///// </summary>
+        ///// <param name="orderId">The ID of the order to be cancelled.</param>
+        ///// <returns>
+        ///// - Returns 200 OK if the order is cancelled successfully.<br/>
+        ///// - Returns 404 Not Found if the order does not exist or could not be updated.<br/>
+        ///// - Returns 500 Internal Server Error if there is an error while processing queue messages.
+        ///// </returns>
+        //[HttpPost("cancel-order")]
+        //public async Task<IActionResult> CancelOrder([FromBody] int orderId)
+        //{
+        //    bool updateResult = await _orderService.UpdateOrderStatusAsync(orderId, "Cancelled");
+        //    if (!updateResult)
+        //    {
+        //        return NotFound(new { message = "Order not found or could not be updated." });
+        //    }
+
+        //    try
+        //    {
+        //        bool deleteResult = await _queueService.DeleteMessageByOrderIdAsync(orderId);
+        //        if (!deleteResult)
+        //        {
+        //            return NotFound(new { message = "No message found for the given OrderId." });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { message = "Error while processing queue messages.", details = ex.Message });
+        //    }
+
+        //    return Ok(new { message = "Order cancelled successfully." });
+        //}
+        //#endregion
+
+        #region Check Order Status
+        /// <summary>
+        /// Checks if the order is cancelled by its ID.
+        /// </summary>
+        /// <param name="orderId">The ID of the order to check.</param>
+        /// <returns>
+        /// - Returns 200 OK with true if the order is cancelled.<br/>
+        /// - Returns 200 OK with false if the order is not cancelled or does not exist.
+        /// </returns>
+        [HttpGet("check-cancelled/{orderId}")]
+        public async Task<IActionResult> CheckOrderCancelled(int orderId)
+        {
+            bool isCancelled = await _orderService.IsOrderCancelledAsync(orderId);
+            return Ok(isCancelled); 
         }
         #endregion
     }

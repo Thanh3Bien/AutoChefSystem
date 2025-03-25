@@ -146,6 +146,13 @@ namespace AutoChefSystem.Services.Services
         {
             return await _unitOfWork.Orders.GetLastOrderIdAsync();
         }
+
+
+        public async Task<bool> IsOrderCancelledAsync(int orderId)
+        {
+            var order = await _unitOfWork.Orders.GetByIdAsync(orderId);
+            return order?.Status == "Cancelled"; 
+        }
     }
 }
 
