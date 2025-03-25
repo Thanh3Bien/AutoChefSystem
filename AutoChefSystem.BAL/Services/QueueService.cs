@@ -7,6 +7,7 @@ using Azure.Storage.Queues.Models;
 using Azure.Storage.Queues;
 using Microsoft.Extensions.Configuration;
 using AutoChefSystem.Services.Interfaces;
+using Newtonsoft.Json;
 
 namespace AutoChefSystem.Services.Services
 {
@@ -38,6 +39,38 @@ namespace AutoChefSystem.Services.Services
                 return Encoding.UTF8.GetString(Convert.FromBase64String(message.MessageText));
             }
             return null; // Không có tin nhắn nào
+        }
+
+
+        public async Task<List<QueueMessage>> ReceiveAllMessagesAsync(int maxMessages)
+        {
+            QueueMessage[] messages = await _queueClient.ReceiveMessagesAsync(maxMessages);
+            return messages.ToList();
+        }
+
+        public async Task<bool> DeleteMessageByOrderIdAsync(int orderId)
+        {
+            var messages = await ReceiveAllMessagesAsync(32); 
+
+            foreach (var queueMessage in messages)
+            {
+                string decodedMessage = Encoding.UTF8.GetString(Convert.FromBase64String(queueMessage.MessageText));
+                var orderMessage = JsonConvert.DeserializeObject<dynamic>(decodedMessage);
+
+                if (orderMessage != null && orderMessage.OrderId != null && (int)orderMessage.OrderId == orderId)
+                {
+     
+                    await DeleteMessageAsync(queueMessage.MessageId, queueMessage.PopReceipt);
+                    return true; 
+                }
+            }
+
+            return false; 
+        }
+
+        public async Task DeleteMessageAsync(string messageId, string popReceipt)
+        {
+            await _queueClient.DeleteMessageAsync(messageId, popReceipt);
         }
     }
 }

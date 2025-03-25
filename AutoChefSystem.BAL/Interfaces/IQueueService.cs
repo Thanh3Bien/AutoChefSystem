@@ -12,5 +12,8 @@ namespace AutoChefSystem.Services.Interfaces
     {
         Task SendMessageAsync(string message);
         Task<string> ReceiveMessageAsync();
+        Task<List<QueueMessage>> ReceiveAllMessagesAsync(int maxMessages);
+        Task<bool> DeleteMessageByOrderIdAsync(int orderId);
+        Task DeleteMessageAsync(string messageId, string popReceipt);
     }
 }
