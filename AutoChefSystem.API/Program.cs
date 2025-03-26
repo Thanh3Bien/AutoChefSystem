@@ -24,8 +24,8 @@ namespace AutoChefSystem.API
             // Add services to the container.
             builder.Services.AddDbContext<AutoChefSystemContext>(options =>
             {
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DeployConnection"));
+                // options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             );
@@ -54,8 +54,8 @@ namespace AutoChefSystem.API
             builder.Services.ConfigureDALServices();
             builder.Services.ConfigureBALServices();
 
-        //    builder.Services.AddSingleton<RobotArmService>(provider =>
-        //new RobotArmService("127.0.0.1", 5000));
+            //    builder.Services.AddSingleton<RobotArmService>(provider =>
+            //new RobotArmService("127.0.0.1", 5000));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -132,7 +132,7 @@ namespace AutoChefSystem.API
             app.UseAuthentication();
             app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
-            
+
 
             app.MapControllers();
 
