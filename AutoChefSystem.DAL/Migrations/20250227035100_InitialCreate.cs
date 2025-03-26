@@ -138,8 +138,7 @@ namespace AutoChefSystem.Repositories.Migrations
                 name: "RobotStepTask",
                 columns: table => new
                 {
-                    StepTaskId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StepTaskId = table.Column<int>(type: "int", nullable: false),
                     StepId = table.Column<int>(type: "int", nullable: false),
                     TaskDescription = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     TaskOrder = table.Column<int>(type: "int", nullable: false),
