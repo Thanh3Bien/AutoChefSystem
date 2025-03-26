@@ -20,6 +20,7 @@ namespace AutoChefSystem.Repositories.Infrastructures
         IRobotRepository Robots { get; }    
         IRobotOperationLogRepository RobotOperations { get; }
         IRobotTypeRepository RobotTypes { get; }
+        IRobotStepTaskRepository RobotStepTasks { get; }
 
         Task CompleteAsync();
 
