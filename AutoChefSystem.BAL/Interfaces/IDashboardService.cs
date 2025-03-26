@@ -9,13 +9,19 @@ namespace AutoChefSystem.Services.Interfaces
 {
     public interface IDashboardService
     {
-        Task<List<Order>> GetSortedOrdersAsync(bool descending);
+        //Task<List<Order>> GetSortedOrdersAsync(bool descending);
+
+        Task<int> GetTodayOrderCountAsync();
 
 
         Task<Dictionary<string, int>> GetRecipeOrderCountsAsync();
 
 
         Task<double> GetAverageOrderCompletionTimeAsync();
+
+        Task<int> GetOrderCountByRobotAndDateAsync(int robotId);
+
+        //Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId);
 
     }
 }

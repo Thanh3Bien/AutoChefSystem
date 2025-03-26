@@ -55,7 +55,7 @@ namespace AutoChefSystem.Repositories.Repositories
             {
                 var query = _dbSet.AsQueryable();
 
-                
+
                 query = query.Where(r => r.Status != "deleted");
 
                 if (!string.IsNullOrWhiteSpace(status))
@@ -103,10 +103,10 @@ namespace AutoChefSystem.Repositories.Repositories
             try
             {
                 var lastOrder = await _dbSet
-                    .OrderByDescending(o => o.OrderedTime) 
-                    .FirstOrDefaultAsync(); 
+                    .OrderByDescending(o => o.OrderedTime)
+                    .FirstOrDefaultAsync();
 
-                return lastOrder?.OrderId; 
+                return lastOrder?.OrderId;
             }
             catch (Exception ex)
             {
@@ -115,21 +115,38 @@ namespace AutoChefSystem.Repositories.Repositories
             }
         }
 
-        public async Task<List<Order>> GetOrdersSortedByTimeAsync(bool descending)
+        //public async Task<List<Order>> GetOrdersSortedByTimeAsync(bool descending)
+        //{
+        //    try
+        //    {
+        //        var query = _dbSet.AsQueryable();
+
+        //        query = descending
+        //            ? query.OrderByDescending(o => o.OrderedTime)
+        //            : query.OrderBy(o => o.OrderedTime);
+
+        //        return await query.ToListAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error while fetching and sorting orders by OrderedTime.");
+        //        throw;
+        //    }
+        //}
+
+        public async Task<int> GetTodayOrderCountAsync()
         {
             try
             {
-                var query = _dbSet.AsQueryable();
+                var today = DateTime.UtcNow.Date;
 
-                query = descending
-                    ? query.OrderByDescending(o => o.OrderedTime)
-                    : query.OrderBy(o => o.OrderedTime);
+                int count = await _dbSet.CountAsync(o => o.OrderedTime.Date == today && o.Status== "Complete");
 
-                return await query.ToListAsync();
+                return count;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while fetching and sorting orders by OrderedTime.");
+                _logger.LogError(ex, "Error while counting today's orders.");
                 throw;
             }
         }
@@ -139,8 +156,8 @@ namespace AutoChefSystem.Repositories.Repositories
             try
             {
                 var recipeCounts = await _dbSet
-                    .Include(o => o.Recipe) 
-                    .GroupBy(o => o.Recipe.RecipeName) 
+                    .Include(o => o.Recipe)
+                    .GroupBy(o => o.Recipe.RecipeName)
                     .Select(g => new { RecipeName = g.Key, Count = g.Count() })
                     .ToDictionaryAsync(x => x.RecipeName, x => x.Count);
 
@@ -157,23 +174,22 @@ namespace AutoChefSystem.Repositories.Repositories
         {
             try
             {
-                var avgTime = await _dbSet
-     .Where(o => o.CompletedTime != null)
-     .AverageAsync(o => EF.Functions.DateDiffSecond(
-         (DateTime)o.OrderedTime,
-         (DateTime)o.CompletedTime
-     ));
+                var avgTimeInMinutes = await _dbSet
+                    .Where(o => o.Status == "Complete" && o.CompletedTime != null)
+                    .AverageAsync(o => EF.Functions.DateDiffSecond(
+                        (DateTime)o.OrderedTime,
+                        (DateTime)o.CompletedTime
+                    ) / 60.0); 
 
-
-                return avgTime;
+                return avgTimeInMinutes;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while calculating average order completion time.");
                 throw;
             }
-        }
 
+        }
     }
 }
 

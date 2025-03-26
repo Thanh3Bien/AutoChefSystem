@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AutoChefSystem.Services.Services
 {
@@ -22,11 +23,11 @@ namespace AutoChefSystem.Services.Services
         }
 
 
-        public async Task<List<Order>> GetSortedOrdersAsync(bool descending)
-        {
-            return await _unitOfWork.Orders.GetOrdersSortedByTimeAsync(descending);
+        //public async Task<List<Order>> GetSortedOrdersAsync(bool descending)
+        //{
+        //    return await _unitOfWork.Orders.GetOrdersSortedByTimeAsync(descending);
  
-        }
+        //}
 
         public async Task<Dictionary<string, int>> GetRecipeOrderCountsAsync()
         {
@@ -38,6 +39,20 @@ namespace AutoChefSystem.Services.Services
             return (double)await _unitOfWork.Orders.GetAverageCompletionTimeAsync();
         }
 
+        public async Task<int> GetOrderCountByRobotAndDateAsync(int robotId)
+        {
+            return await _unitOfWork.RobotOperations.GetOrderCountByRobotAndDateAsync(robotId);
+        }
 
+        //public async Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId)
+        //{
+        //    return await _unitOfWork.RobotOperations.GetAverageCompletionTimeByRobotAsync(robotId);
+        //}
+
+        public async Task<int> GetTodayOrderCountAsync()
+        {
+            return await _unitOfWork.Orders.GetTodayOrderCountAsync();
+
+        }
     }
 }
