@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoChefSystem.Repositories;
+using AutoChefSystem.Repositories.Entities;
 using AutoChefSystem.Repositories.Interfaces;
 using AutoChefSystem.Repositories.Repositories;
 using Microsoft.Extensions.Logging;
@@ -33,6 +34,7 @@ namespace AutoChefSystem.Repositories.Infrastructures
         public IRobotOperationLogRepository RobotOperations { get; private set; }
 
         public IRobotTypeRepository RobotTypes { get; private set; }
+        public IRobotStepTaskRepository RobotStepTasks { get; private set; }
 
 
         public UnitOfWork(
@@ -61,7 +63,7 @@ namespace AutoChefSystem.Repositories.Infrastructures
 
             RobotTypes = new RobotTypeRepository(_context, _logger);
 
-
+            RobotStepTasks = new RobotStepTaskRepository(_context, _logger);
 
         }
 

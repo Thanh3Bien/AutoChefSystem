@@ -151,7 +151,7 @@ public partial class AutoChefSystemContext : DbContext
 
             entity.ToTable("RobotStepTask");
 
-            entity.Property(e => e.StepTaskId).ValueGeneratedNever();
+            entity.Property(e => e.StepTaskId).ValueGeneratedOnAdd();
             entity.Property(e => e.RepeatCount).HasDefaultValue(1);
             entity.Property(e => e.TaskDescription).HasMaxLength(255);
 
