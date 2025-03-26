@@ -12,10 +12,12 @@ namespace AutoChefSystem.Services.Interfaces
     {
         Task<MessageResponse<PaginatedRobotOperationLogResponse>> GetAllAsync(int pageNumber, int pageSize);
         Task<MessageResponse<List<RobotOperationLogResponse>>> GetByOrderIdAsync(int orderId);
-        Task<MessageResponse<RobotOperationLogResponse>> CreateAsync(CreateRobotOperationLogRequest request);
+        //Task<MessageResponse<RobotOperationLogResponse>> CreateAsync(CreateRobotOperationLogRequest request);
         Task<MessageResponse<RobotOperationLogResponse?>> UpdateAsync(int id, UpdateRobotOperationLogRequest request);
         Task<MessageResponse<bool>> DeleteAsync(int id);
 
         Task<MessageResponse<RobotOperationLogResponse?>> GetByIdAsync(int id);
+
+        Task<RobotOperationLogResponse> CreateAsync(CreateRobotOperationLogRequest request);
     }
 }

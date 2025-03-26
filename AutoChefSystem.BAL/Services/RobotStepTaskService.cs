@@ -52,6 +52,7 @@ namespace AutoChefSystem.Services.Services
         {
             var task = new RobotStepTask
             {
+                StepTaskId = request.StepTaskId,
                 StepId = request.StepId,
                 TaskDescription = request.TaskDescription,
                 TaskOrder = request.TaskOrder,
