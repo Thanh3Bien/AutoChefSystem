@@ -52,7 +52,7 @@ namespace AutoChefSystem.Repositories.Repositories
             existingLog.EndTime = log.EndTime;
             existingLog.CompletionStatus = log.CompletionStatus;
             existingLog.OperationLog = log.OperationLog;
-
+            _context.RobotOperationLogs.Update(existingLog);
             await _context.SaveChangesAsync();
             return existingLog;
         }

@@ -49,7 +49,26 @@ namespace AutoChefSystem.Services.Services
         }
 
 
-        public async Task<MessageResponse<RobotOperationLogResponse>> CreateAsync(CreateRobotOperationLogRequest request)
+        //public async Task<MessageResponse<RobotOperationLogResponse>> CreateAsync(CreateRobotOperationLogRequest request)
+        //{
+        //    var log = new RobotOperationLog
+        //    {
+        //        OrderId = request.OrderId,
+        //        RobotId = request.RobotId,
+        //        StartTime = request.StartTime,
+        //        EndTime = request.EndTime,
+        //        CompletionStatus = request.CompletionStatus,
+        //        OperationLog = request.OperationLog
+        //    };
+
+        //    await _unitOfWork.RobotOperations.CreateAsync(log);
+        //    await _unitOfWork.CompleteAsync();
+
+        //    var mappedLog = _mapper.Map<RobotOperationLogResponse>(log);
+        //    return new MessageResponse<RobotOperationLogResponse>("Log created successfully", mappedLog);
+        //}
+
+        public async Task<RobotOperationLogResponse> CreateAsync(CreateRobotOperationLogRequest request)
         {
             var log = new RobotOperationLog
             {
@@ -60,12 +79,17 @@ namespace AutoChefSystem.Services.Services
                 CompletionStatus = request.CompletionStatus,
                 OperationLog = request.OperationLog
             };
-
+            var order = await _unitOfWork.Orders.GetByIdAsync(request.OrderId);
+            if (order != null)
+            {
+                order.CompletedTime = DateTime.Now;
+                await _unitOfWork.Orders.UpdateAsync(order);
+            }
             await _unitOfWork.RobotOperations.CreateAsync(log);
             await _unitOfWork.CompleteAsync();
 
             var mappedLog = _mapper.Map<RobotOperationLogResponse>(log);
-            return new MessageResponse<RobotOperationLogResponse>("Log created successfully", mappedLog);
+            return mappedLog;
         }
 
         public async Task<MessageResponse<RobotOperationLogResponse?>> UpdateAsync(int id, UpdateRobotOperationLogRequest request)

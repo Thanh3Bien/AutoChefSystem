@@ -8,6 +8,7 @@ namespace AutoChefSystem.Services.Models.RobotStepTask
 {
     public class CreateRobotStepTaskRequest
     {
+        public int StepTaskId { get; set; }
         public int StepId { get; set; }
         public string TaskDescription { get; set; } = null!;
         public int TaskOrder { get; set; }
