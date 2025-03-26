@@ -1,3 +1,5 @@
+
+﻿using Microsoft.EntityFrameworkCore;
 ﻿using AutoChefSystem.Repositories.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,10 @@ namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IRobotOperationLogRepository
     {
+
+        Task<int> GetOrderCountByRobotAndDateAsync(int robotId);
+        //Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId);
+
         Task<IEnumerable<RobotOperationLog>> GetAllAsync(int pageNumber, int pageSize);
         Task<List<RobotOperationLog>> GetByOrderIdAsync(int orderId);
         Task<RobotOperationLog> CreateAsync(RobotOperationLog log);
