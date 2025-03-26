@@ -28,7 +28,13 @@ namespace AutoChefSystem.BAL
             services.AddScoped<IRobotService, RobotService>();
             services.AddScoped<IRobotTypeService, RobotTypeService>();
             services.AddScoped<ILocationService, LocationService>();
+
             services.AddScoped<IDashboardService, DashboardService>();
+
+            services.AddScoped<IRobotOperationLogService, RobotOperationLogService>();
+            services.AddScoped<IRobotStepTaskService, RobotStepTaskService>();
+
+
             services.AddScoped<IQueueService, QueueService>();
 
             //    services.AddSingleton<RobotArmService>(provider =>
