@@ -15,6 +15,8 @@ public partial class Recipe
 
     public string? Description { get; set; }
 
+    public bool IsActive { get; set; } = true;
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<RecipeStep> RecipeSteps { get; set; } = new List<RecipeStep>();

@@ -63,7 +63,7 @@ namespace AutoChefSystem.API.Controllers
         /// <response code="404">Recipe not found</response>
         /// <response code="500">Internal server error</response>
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdateRecipeByIdRequest updateRecipe)
+        public async Task<IActionResult> UpdateAsync( UpdateRecipeByIdRequest updateRecipe)
         {
             try
             {
