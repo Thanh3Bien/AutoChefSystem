@@ -11,9 +11,8 @@ namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IRobotOperationLogRepository
     {
-
-        Task<int> GetOrderCountByRobotAndDateAsync(int robotId);
-        //Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId);
+        Task<int> GetOrderCountByRobotAndDateAsync(int robotId, DateTime date);
+        Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId, DateTime date);
 
         Task<IEnumerable<RobotOperationLog>> GetAllAsync(int pageNumber, int pageSize);
         Task<List<RobotOperationLog>> GetByOrderIdAsync(int orderId);
