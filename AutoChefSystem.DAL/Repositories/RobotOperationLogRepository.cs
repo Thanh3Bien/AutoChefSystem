@@ -19,19 +19,37 @@ namespace AutoChefSystem.Repositories.Repositories
         AutoChefSystemContext context,
         ILogger logger) : base(context, logger)
         { }
-        public async Task<int> GetOrderCountByRobotAndDateAsync(int robotId)
+
+        public async Task<int> GetOrderCountByRobotAndDateAsync(int robotId, DateTime date)
         {
-
-            var today = DateTime.Today;
-
             return await _dbSet
-                .Where(log => log.RobotId == robotId && log.StartTime.Date == today)
-                .Select(log => log.OrderId)  
-                .Distinct()  
-                .CountAsync();  
+                .Where(log => log.RobotId == robotId && log.StartTime.Date == date.Date && log.CompletionStatus== "Completed")
+                .Select(log => log.OrderId)
+                .Distinct()
+                .CountAsync();
         }
 
+        public async Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId, DateTime date)
+        {
+            var times = await _dbSet
+                .Where(log => log.RobotId == robotId && log.EndTime != null && log.StartTime.Date == date.Date && log.CompletionStatus == "Completed")
+                .Select(log => (double)(log.EndTime - log.StartTime).TotalMinutes)
+                .ToListAsync();
 
+            return times.Count > 0 ? times.Average() : (double?)null;
+        }
+
+        //public async Task<int> GetOrderCountByRobotAndDateAsync(int robotId)
+        //{
+
+        //    var today = DateTime.Today;
+
+        //    return await _dbSet
+        //        .Where(log => log.RobotId == robotId && log.StartTime.Date == today)
+        //        .Select(log => log.OrderId)  
+        //        .Distinct()  
+        //        .CountAsync();  
+        //}
 
 
         //public async Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId)

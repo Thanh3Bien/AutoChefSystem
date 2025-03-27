@@ -23,13 +23,11 @@ namespace AutoChefSystem.Repositories.Interfaces
 
         Task<int?> GetLastOrderIdAsync();
 
-        //Task<List<Order>> GetOrdersSortedByTimeAsync(bool descending);
+        Task<Dictionary<string, int>> GetRecipeOrderCountAsync(DateTime date);
 
-        Task<Dictionary<string, int>> GetRecipeOrderCountAsync();
+        Task<double?> GetAverageCompletionTimeAsync(DateTime date);
 
-        Task<double?> GetAverageCompletionTimeAsync();
-
-        Task<int> GetTodayOrderCountAsync();
+        Task<int> GetOrderCountByDateAsync(DateTime date);
 
 
     }
