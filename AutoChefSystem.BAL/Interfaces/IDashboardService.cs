@@ -1,27 +1,21 @@
 ﻿using AutoChefSystem.Repositories.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AutoChefSystem.Services.Interfaces
 {
     public interface IDashboardService
     {
-        //Task<List<Order>> GetSortedOrdersAsync(bool descending);
 
-        Task<int> GetTodayOrderCountAsync();
+        Task<int> GetOrderCountAsync(DateTime date);
 
+        Task<Dictionary<string, int>> GetRecipeOrderCountsAsync(DateTime date);
 
-        Task<Dictionary<string, int>> GetRecipeOrderCountsAsync();
+        Task<double> GetAverageOrderCompletionTimeAsync(DateTime date);
 
+        Task<int> GetOrderCountByRobotAndDateAsync(int robotId, DateTime date);
 
-        Task<double> GetAverageOrderCompletionTimeAsync();
-
-        Task<int> GetOrderCountByRobotAndDateAsync(int robotId);
-
-        //Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId);
-
+        Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId, DateTime date);
     }
 }
