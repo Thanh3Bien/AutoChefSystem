@@ -14,6 +14,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AutoChefSystem.Services.Models.RobotOperationLog;
+using AutoChefSystem.Services.Services;
+using AutoChefSystem.Services.Models.RobotStepTask;
 
 namespace AutoChefSystem.Services.Mappings
 {
@@ -53,6 +56,19 @@ namespace AutoChefSystem.Services.Mappings
 
             #region Location
             CreateMap<Location, LocationResponse>().ReverseMap();
+            #endregion
+
+            #region RobotOperationLog
+            CreateMap<RobotOperationLog, RobotOperationLogResponse>().ReverseMap();
+            #endregion
+
+            #region RobotStepTask
+            CreateMap<RobotStepTask, RobotStepTaskResponse>().ReverseMap();
+
+            CreateMap<UpdateRobotStepTaskRequest, RobotStepTask>()
+                .ForMember(dest => dest.EstimatedTime, opt =>
+                    opt.MapFrom(src =>string.IsNullOrEmpty(src.EstimatedTime) ? default : TimeOnly.Parse(src.EstimatedTime)));
+
             #endregion
         }
     }
