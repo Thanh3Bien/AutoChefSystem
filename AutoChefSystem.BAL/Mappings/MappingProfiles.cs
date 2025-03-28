@@ -46,6 +46,8 @@ namespace AutoChefSystem.Services.Mappings
             CreateMap<RecipeStep, GetByRecipeIdRequest>().ReverseMap();
             CreateMap<CreateRecipeStepRequest, RecipeStep>().ReverseMap();
             CreateMap<UpdateRecipeStepRequest, RecipeStep>().ReverseMap();
+            CreateMap<RecipeStep, RecipeStepResponse>().ReverseMap();
+
             #endregion
 
             #region Robot

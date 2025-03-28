@@ -7,6 +7,7 @@ using AutoChefSystem.Repositories.Entities;
 using AutoChefSystem.Repositories.Infrastructures;
 using AutoChefSystem.Services.Interfaces;
 using AutoChefSystem.Services.Models.RecipeSteps;
+using AutoChefSystem.Services.Models.RobotStepTask;
 using AutoMapper;
 
 namespace AutoChefSystem.Services.Services
@@ -20,6 +21,21 @@ namespace AutoChefSystem.Services.Services
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task<PaginatedRecipeStepResponse> GetAllAsync(int pageNumber, int pageSize)
+        {
+            var tasks = await _unitOfWork.RecipeSteps.GetAllAsync(pageNumber, pageSize);
+            var mappedTasks = _mapper.Map<List<RecipeStepResponse>>(tasks);
+
+            var result = new PaginatedRecipeStepResponse
+            {
+                Tasks = mappedTasks,
+                Page = pageNumber,
+                PageSize = pageSize
+            };
+
+            return result;
         }
 
         public async Task<CreateRecipeStepRequest?> CreateRecipeStepAsync(CreateRecipeStepRequest createRecipeStep)

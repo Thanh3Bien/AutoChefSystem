@@ -8,6 +8,7 @@ namespace AutoChefSystem.Repositories.Interfaces
 {
     public interface IRecipeStepRepository
     {
+        Task<List<RecipeStep>> GetAllAsync(int pageNumber, int pageSize);
         public Task<List<RecipeStep>> GetByRecipeIdAsync(int recipeId);
         Task<RecipeStep?> CreateAsync(RecipeStep recipeStep);
 

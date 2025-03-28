@@ -30,6 +30,7 @@ namespace AutoChefSystem.Repositories.Services
                 RoleId = createUserRequest.RoleId,
                 IsActive = true,
                 Image = createUserRequest.UserImage,
+                UserFullName = createUserRequest.UserFullName,
             };
             _unitOfWork.Users.AddEntity(user);
             await _unitOfWork.CompleteAsync();
@@ -45,6 +46,8 @@ namespace AutoChefSystem.Repositories.Services
                 user.Password = updateUserRequest.Password;
                 user.RoleId = updateUserRequest.RoleId;
                 user.Image = updateUserRequest.UserImage;
+                user.UserFullName = updateUserRequest.UserFullName;
+                user.IsActive = updateUserRequest.IsActive;
                 _unitOfWork.Users.UpdateEntity(user);
                 await _unitOfWork.CompleteAsync();
                 return updateUserRequest;
