@@ -17,5 +17,7 @@ namespace AutoChefSystem.Services.Interfaces
         Task<int> GetOrderCountByRobotAndDateAsync(int robotId, DateTime date);
 
         Task<double?> GetAverageCompletionTimeByRobotAsync(int robotId, DateTime date);
+
+        Task<int> GetOrderCountByStatusAsync(DateTime date, string? status);
     }
 }

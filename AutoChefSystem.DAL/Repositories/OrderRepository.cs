@@ -133,7 +133,7 @@ namespace AutoChefSystem.Repositories.Repositories
             try
             {
                 var recipeCounts = await _dbSet
-                    .Where(o => o.OrderedTime.Date == date.Date && o.Status== "Completed")
+                    .Where(o => o.OrderedTime.Date == date.Date && o.Status == "Completed")
                     .Include(o => o.Recipe)
                     .GroupBy(o => o.Recipe.RecipeName)
                     .Select(g => new { RecipeName = g.Key, Count = g.Count() })
@@ -167,6 +167,24 @@ namespace AutoChefSystem.Repositories.Repositories
                 throw;
             }
         }
+
+        public async Task<int> GetOrderCountByStatusAsync(DateTime date, string? status)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(status))
+                {
+                    return await _dbSet.CountAsync(o => o.OrderedTime.Date == date.Date);
+                }
+                return await _dbSet.CountAsync(o => o.OrderedTime.Date == date.Date && o.Status == status);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while counting orders by date and status.");
+                throw;
+            }
+        }
+
 
 
     }

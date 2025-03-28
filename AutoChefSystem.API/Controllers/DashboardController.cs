@@ -96,5 +96,21 @@ namespace AutoChefSystem.API.Controllers
         }
 
         #endregion
+
+        #region
+        /// <summary>
+        /// Retrieves the number of orders placed on a specific date, filtered by status.
+        /// </summary>
+        /// <param name="date">The date to filter orders (default: today if not provided).</param>
+        /// <param name="status">The status of the orders to filter (optional).</param>
+        /// <returns>The count of orders matching the specified date and status.</returns>
+        [HttpGet("orders/countByStatus")]
+        public async Task<IActionResult> GetOrderCountByStatus([FromQuery] DateTime? date, [FromQuery] string? status)
+        {
+            var targetDate = date ?? DateTime.UtcNow.Date;
+            var orderCount = await _dashboardService.GetOrderCountByStatusAsync(targetDate, status);
+            return Ok(orderCount);
+        }
+        #endregion
     }
 }

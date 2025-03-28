@@ -39,5 +39,11 @@ namespace AutoChefSystem.Services.Services
         {
             return await _unitOfWork.RobotOperations.GetAverageCompletionTimeByRobotAsync(robotId, date);
         }
+
+        public async Task<int> GetOrderCountByStatusAsync(DateTime date, string? status)
+        {
+            return await _unitOfWork.Orders.GetOrderCountByStatusAsync(date, status);
+        }
+
     }
 }
