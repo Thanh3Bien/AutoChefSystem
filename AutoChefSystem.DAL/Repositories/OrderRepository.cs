@@ -53,7 +53,7 @@ namespace AutoChefSystem.Repositories.Repositories
         {
             try
             {
-                var query = _dbSet.AsQueryable();
+                var query = _dbSet.Include(o => o.Recipe).AsQueryable();
 
 
                 query = query.Where(r => r.Status != "deleted");
@@ -166,6 +166,13 @@ namespace AutoChefSystem.Repositories.Repositories
                 _logger.LogError(ex, "Error while calculating average order completion time by date.");
                 throw;
             }
+        }
+
+
+        public async Task<Order?> GetByIdAsync(int id)
+        {
+            return await _dbSet.Include(o => o.Recipe)
+                                .FirstOrDefaultAsync(o => o.OrderId == id);
         }
 
 

@@ -10,7 +10,8 @@ namespace AutoChefSystem.Services.Models.Order
     {
         public int OrderId { get; set; }
 
-        public int RecipeId { get; set; }
+        //public int RecipeId { get; set; }
+        public string RecipeName { get; set; } = null!;
 
         public int LocationId { get; set; }
 
