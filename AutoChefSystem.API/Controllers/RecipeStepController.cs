@@ -15,6 +15,23 @@ namespace AutoChefSystem.API.Controllers
         {
             _recipeStepService = recipeStepService;
         }
+        #region Get All Recipe Steps
+        /// <summary>
+        /// Get all recipe steps with pagination.
+        /// </summary>
+        /// <param name="pageNumber">Current page number (default = 1)</param>
+        /// <param name="pageSize">Number of tasks per page (default = 10)</param>
+        /// <returns>A paginated list of recipe steps</returns>
+        /// <response code="200">Returns a paginated list of steps</response>
+        /// <response code="400">Invalid request</response>
+        /// <response code="500">Internal server error</response>
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllAsync(int pageNumber = 1, int pageSize = 10)
+        {
+            var result = await _recipeStepService.GetAllAsync(pageNumber, pageSize);
+            return Ok(result);
+        }
+        #endregion
 
         #region Get All RecipeStep by RecipeId
         /// <summary>
@@ -117,7 +134,7 @@ namespace AutoChefSystem.API.Controllers
         }
         #endregion
 
-
+        
     }
 
 }

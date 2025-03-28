@@ -15,6 +15,9 @@ namespace AutoChefSystem.BAL.Models.Users
         public string Password { get; set; } = null!;
 
         public int? RoleId { get; set; }
+        public bool IsActive { get; set; }
+
+        public string? UserFullName { get; set; }
 
         public string? UserImage { get; set; }
     }

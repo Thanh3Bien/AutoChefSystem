@@ -20,6 +20,14 @@ namespace AutoChefSystem.Repositories.Repositories
         {
         }
 
+        public async Task<List<RecipeStep>> GetAllAsync(int pageNumber, int pageSize)
+        {
+            return await _context.RecipeSteps
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         public async Task<RecipeStep?> CreateAsync(RecipeStep recipeStep)
         {
             try
