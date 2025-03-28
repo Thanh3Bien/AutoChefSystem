@@ -36,6 +36,10 @@ namespace AutoChefSystem.Services.Mappings
             CreateMap<UpdateOrderRequest, Order>().ReverseMap();
             CreateMap<GetOrderByIdResponse, Order>().ReverseMap();
             CreateMap<GetAllOrderResponse, Order>().ReverseMap();
+            CreateMap<Order, GetAllOrderResponse>()
+    .ForMember(dest => dest.RecipeName, opt => opt.MapFrom(src => src.Recipe.RecipeName));
+            CreateMap<Order, GetOrderByIdResponse>()
+    .ForMember(dest => dest.RecipeName, opt => opt.MapFrom(src => src.Recipe.RecipeName));
             #endregion
 
             #region RecipeStep
